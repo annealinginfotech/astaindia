@@ -3068,11 +3068,11 @@ only screen and (min-resolution:2dppx) {
 
 .company-name {
     
-    font-size: 30px;
+    font-size: 50px;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     margin-left: 100px;
-    margin-top: 30px;
+    margin-top: 20px;
     letter-spacing: 0.2cm;
     font-family: Georgia, 'Times New Roman', Times, serif;
     background-image: linear-gradient(
@@ -3090,6 +3090,7 @@ only screen and (min-resolution:2dppx) {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: textclip 2s linear infinite;
+    line-height: 50px;
   }
 
 @keyframes textclip {
