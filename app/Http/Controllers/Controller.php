@@ -9,4 +9,11 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    protected $breadcrumbs = [];
+
+    public function addBreadcrumb($name, $url, $state)
+    {
+        array_push($this->breadcrumbs, ['name' => $name, 'url' => $url, 'state' => $state]);
+    }
 }

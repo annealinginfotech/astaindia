@@ -2,7 +2,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Dashboard</h1>
+                <h1>{{ $title }}</h1>
             </div>
         </div>
     </div>
@@ -10,7 +10,15 @@
         <div class="page-header float-right">
             <div class="page-title">
                 <ol class="breadcrumb text-right">
-                    <li class="active">Dashboard</li>
+                    @foreach ($breadCrumbs as $bc)
+                        @if ($bc['url'] == "#")
+                            <li class="{{ $bc['state'] }}">{{ $bc['name'] }}</li>
+                        @else
+                            <li><a href="{{ $bc['url'] }}">{{ $bc['name'] }}</a></li>
+                        @endif
+
+                    @endforeach
+
                 </ol>
             </div>
         </div>

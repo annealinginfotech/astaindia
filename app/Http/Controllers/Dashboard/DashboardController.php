@@ -9,7 +9,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $data   =   ['title'    =>  'Dashboard'];
+        $this->addBreadcrumb('Dashboard', '#', 'active');
+        $data   =   [
+            'title'    =>  'Dashboard',
+            'breadCrumbs'   =>  $this->breadcrumbs
+        ];
         return view('dashboard')->with($data);
     }
 }

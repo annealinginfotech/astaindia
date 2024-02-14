@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\BillingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +24,7 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('login-oper
 
 Route::middleware(['auth'])->group(function() {
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
+    Route::resource('/billing', BillingController::class);
+
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });

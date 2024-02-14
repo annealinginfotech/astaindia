@@ -39,10 +39,10 @@ class AuthController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
         Auth::logout();
-        return redirect()->route('login.admin');
+        return redirect()->route('login');
     }
 
     public function forgotPassword(){
