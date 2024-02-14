@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Dashboard\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('login');
+})->middleware('guest')->name('login');
+
+Route::post('/login', [AuthController::class, 'authenticate'])->name('login-operation');
+
+Route::middleware(['auth'])->group(function() {
+    Route::get('/home', [DashboardController::class, 'index'])->name('home');
 });
