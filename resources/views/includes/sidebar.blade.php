@@ -16,16 +16,19 @@
             </li>
             <h3 class="menu-title">Billing Section</h3>
             <!-- /.menu-title -->
+
+            <li class="{{ (request()->is('billing')) ? 'active' : '' }}">
+                <a href="{{ route('billing.index') }}">
+                    <i class="menu-icon ti-list"></i>All bills
+                </a>
+            </li>
+
             <li class="{{ (request()->is('billing/create')) ? 'active' : '' }}">
                 <a href="{{ route('billing.create') }}">
                     <i class="menu-icon ti-receipt"></i>Create new bill
                 </a>
             </li>
-            <li>
-                <a href="widgets.html">
-                    <i class="menu-icon ti-list"></i>All bills
-                </a>
-            </li>
+
             <li>
                 <a href="widgets.html">
                     <i class="menu-icon ti-export"></i>Export bill

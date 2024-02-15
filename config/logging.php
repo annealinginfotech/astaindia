@@ -130,7 +130,17 @@ return [
         'billCreation'  =>  [
             'driver'    =>  'daily',
             'path'      =>  storage_path('logs/billCreateLogs/operations.log')
-        ]
+        ],
+
+        'billDelete'  =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/billDeleteLogs/operations.log')
+        ],
+
+        'billUpdate'  =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/billUpdateLogs/operations.log')
+        ],
     ],
 
 ];

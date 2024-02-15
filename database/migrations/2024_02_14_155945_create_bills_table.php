@@ -17,11 +17,13 @@ return new class extends Migration
             $table->text('branch');
             $table->string('name');
             $table->dateTime('billing_date');
-            $table->string('cheque_no');
-            $table->date('cheque_issue_date');
-            $table->text('bank_of_cheque');
+            $table->longText('description');
+            $table->string('cheque_no')->nullable();
+            $table->date('cheque_issue_date')->nullable();
+            $table->text('bank_of_cheque')->nullable();
             $table->double('total_amount');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
