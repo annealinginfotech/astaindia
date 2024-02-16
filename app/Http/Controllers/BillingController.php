@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Bill;
 use App\Http\Requests\BillCreateFormRequest;
 use Carbon\Carbon;
+use Codedge\Fpdf\Fpdf\Fpdf;
 use Log;
 
 
@@ -51,7 +52,7 @@ class BillingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BillCreateFormRequest $request)
+    public function store( BillCreateFormRequest $request)
     {
         try {
             $inputs =   $request->except('_token');
@@ -68,7 +69,19 @@ class BillingController extends Controller
             return redirect()->back()->with('internalError', "Unable to create the Bill. Please try again later.");
         }
 
-        return redirect()->route('billing.index')->with('success', 'Bill created successfully. Bill No. is: <strong>'.$latestBillNumber.'</strong>');
+        switch ($request->action) {
+            case 'save':
+                    return redirect()->route('billing.index')->with('success', 'Bill created successfully. Bill No. is: <strong>'.$latestBillNumber.'</strong>');
+                break;
+            case 'save_and_print':
+
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
     }
 
     /**
@@ -88,8 +101,14 @@ class BillingController extends Controller
         $this->addBreadcrumb('Create new bill', '#', 'active');
 
         $billInformation    =   Bill::findOrFail($id);
+        $fpdf   =   new Fpdf('L', 'mm', array(210, 148.5));
+        $fpdf->AddPage();
+        $fpdf->SetFont('Courier', 'B', 18);
+        $fpdf->Cell(50, 25, 'Hello World!');
+        $fpdf->Output();
+        exit;
 
-        $data               =   [
+        /* $data               =   [
             'title'             =>  $billInformation->bill_no,
             'breadCrumbs'       =>  $this->breadcrumbs,
             'billInformation'   =>  $billInformation,
@@ -97,7 +116,7 @@ class BillingController extends Controller
 
         ];
 
-        return view('createBill.edit')->with($data);
+        return view('createBill.edit')->with($data); */
     }
 
     /**

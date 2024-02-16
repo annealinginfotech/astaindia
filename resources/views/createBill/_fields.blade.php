@@ -77,18 +77,40 @@
         <label for="">Bank</label>
         <input type="text" name="bank_of_cheque" value="@isset($billInformation){{ $billInformation->bank_of_cheque }}@endisset" autocomplete="off" class="form-control" placeholder="Enter the Bank name of the cheque" />
     </div>
-    <div class="form-group col-md-12 mt-5">
-        <button type="submit" class="btn btn-success float-right">
-            <i class="fa fa-save"></i>
-            @if (isset($billInformation))
-                Update
-            @else
-                Save
-            @endif
-        </button>
-        <button type="reset" class="btn btn-danger">
-            <i class="fa fa-refresh"></i> Reset
-        </button>
+    <div class="form-group col-md-12 mt-2">
+        <hr/>
+    </div>
+
+    <div class="container-fluid">
+        <div class="form-row">
+            <div class="form-group col-md-4 float-left">
+                <button type="reset" class="btn btn-danger">
+                    <i class="fa fa-refresh"></i> Reset
+                </button>
+            </div>
+
+            <div class="form-group col-md-4 text-center">
+                <button name="action" value="save" type="submit" class="btn btn-success">
+                    <i class="fa fa-save"></i>
+                    @if (isset($billInformation))
+                        Update
+                    @else
+                        Save
+                    @endif
+                </button>
+            </div>
+
+            <div class="form-group col-md-4">
+                <button name="action" value="save_and_print" type="submit" class="btn btn-info float-right">
+                    <i class="fa fa-print"></i>
+                    @if (isset($billInformation))
+                        Update & Print
+                    @else
+                        Save & Print
+                    @endif
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

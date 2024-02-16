@@ -25,6 +25,7 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('login-oper
 Route::middleware(['auth'])->group(function() {
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
     Route::resource('/billing', BillingController::class);
+    Route::get('/billing-print', [BillingController::class, 'savePrint'])->name('billing.save-print');
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
