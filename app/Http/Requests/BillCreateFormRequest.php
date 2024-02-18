@@ -25,7 +25,10 @@ class BillCreateFormRequest extends FormRequest
             'branch'            =>  'required',
             'billing_date'      =>  'required',
             'name'              =>  'required',
-            'description'       =>  'required',
+            'fees_type'         =>  'required',
+            'month'             =>  'required',
+            'year'              =>  'required',
+            'payment_mode'      =>  'required',
             'total_amount'      =>  'required',
             'cheque_no'         =>  'nullable',
             'cheque_issue_date' =>  'nullable',
@@ -36,10 +39,13 @@ class BillCreateFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'branch.required'           =>  'Branch name is requried',
+            'branch.required'           =>  'Branch name is required',
             'billing_date.required'     =>  'Billing date is required',
             'name.required'             =>  'Name is required',
-            'description.required'      =>  'Description is required',
+            'fees_type'                 =>  'Fees type is required',
+            'month'                     =>  'Month is required',
+            'year'                      =>  'Year is required',
+            'payment_mode'              =>  'Payment mode is required',
             'total_amount.required'     =>  'Amount is required',
         ];
     }

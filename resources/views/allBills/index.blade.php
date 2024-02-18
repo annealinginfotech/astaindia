@@ -23,13 +23,14 @@
                     <div class="card-header">
                         <strong class="card-title">List of Bills</strong>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Bill No.</th>
                                     <th>Branch</th>
+                                    <th>Type</th>
                                     <th>Name</th>
                                     <th>Billing Date</th>
                                     <th>Amount</th>
@@ -42,6 +43,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $bill->bill_no }}</td>
                                         <td>{{ $bill->branch }}</td>
+                                        <td>{{ ucwords(str_replace('_', ' ', $bill->fees_type)) }} Fees</td>
                                         <td>{{ $bill->name }}</td>
                                         <td>{{ $bill->billing_date->format('d M, Y') }}</td>
                                         <td>&#8377;{{ $bill->total_amount }}</td>
@@ -53,7 +55,7 @@
                                                     <i class="fa fa-download"></i> Download
                                                 </a> --}}
                                                 <a href="{{ asset('storage/'.$bill->receipt_file) }}" class="btn btn-info btn-sm" target="_blank">
-                                                    <i class="fa fa-download"></i> Download
+                                                    <i class="fa fa-download"></i>
                                                 </a>
                                             @endisset
                                         </td>

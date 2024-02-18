@@ -42,10 +42,14 @@ class BillingController extends Controller
         $lastBillNumber     =   Bill::withTrashed()->latest()->value('bill_no');
         $latestBillNumber   =   0;
         $latestBillNumber   =   ($lastBillNumber) ? $lastBillNumber+1 : 1001;
+        $billingYearRange   =   range(date('Y'), 2034);
+        $billingMonthRange  =   array_reduce(range(1,12),function($rslt,$m){ $rslt[$m] = date('F',mktime(0,0,0,$m,10)); return $rslt; });
         $data   =   [
             'title'             =>  'Create new bill',
             'breadCrumbs'       =>  $this->breadcrumbs,
-            'latestBillNumber'  =>  $latestBillNumber
+            'latestBillNumber'  =>  $latestBillNumber,
+            'billingYearRange'  =>  $billingYearRange,
+            'billingMonthRange' =>  $billingMonthRange
         ];
 
         return view('createBill.index')->with($data);
@@ -105,11 +109,16 @@ class BillingController extends Controller
         $this->addBreadcrumb('Create new bill', '#', 'active');
 
         $billInformation    =   Bill::findOrFail($id);
+        $billingYearRange   =   range(date('Y'), 2034);
+        $billingMonthRange  =   array_reduce(range(1,12),function($rslt,$m){ $rslt[$m] = date('F',mktime(0,0,0,$m,10)); return $rslt; });
+
         $data               =   [
             'title'             =>  $billInformation->bill_no,
             'breadCrumbs'       =>  $this->breadcrumbs,
             'billInformation'   =>  $billInformation,
-            'latestBillNumber'  =>  $billInformation->bill_no
+            'latestBillNumber'  =>  $billInformation->bill_no,
+            'billingYearRange'  =>  $billingYearRange,
+            'billingMonthRange' =>  $billingMonthRange
 
         ];
 
@@ -125,6 +134,7 @@ class BillingController extends Controller
 
         try {
             $billInformation->update($request->except('_token'));
+            Helper::genereatePaySlipPDF($billInformation);
 
         } catch (\Throwable $th) {
             Log::channel('billUpdate')->debug('Error while updating Bill record id: '.$id.' Cause: '.$th->getMessage());

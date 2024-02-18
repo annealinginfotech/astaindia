@@ -44,7 +44,7 @@ class Helper {
             {
                 $levels--;
                 $hundreds   = ( int ) ( $num_part / 100 );
-                $hundreds   = ( $hundreds ? ' ' . $list1[$hundreds] . ' Hundred' . ( $hundreds == 1 ? '' : 's' ) . ' ' : '' );
+                $hundreds   = ( $hundreds ? ' ' . $list1[$hundreds] . ' Hundred' . ' ' : '' );
                 $tens       = ( int ) ( $num_part % 100 );
                 $singles    = '';
 
@@ -86,14 +86,14 @@ class Helper {
         $fpdf->SetXY('40', '20');
         $fpdf->Cell('155', '5', 'H.O. : Sikhalaya Apartment, Natagarh, Sodepur, Kolkata - 700 113', 0, 0, 'C');
         $fpdf->SetXY('40', '25');
-        $fpdf->Cell('155', '5', 'Mob. : 7980112359 / 9062894076', 0, 0, 'C');
+        $fpdf->Cell('155', '5', 'Mob. : +91 9433922339 / +91 7980112359', 0, 0, 'C');
         $fpdf->SetXY('40', '30');
-        $fpdf->Cell('155', '5', 'E-mail: info@astaindia.org website : www.astaindia.org', 0, 1, 'C');
+        $fpdf->Cell('155', '5', 'E-mail: info@astaindia.org | Website: www.astaindia.org', 0, 1, 'C');
 
         $fpdf->Ln(10);
         $fpdf->SetFont('Arial', 'B', 12);
         $fpdf->Cell('18', '5', 'Branch: ', 0, 0, 'L');
-        $fpdf->SetFont('Arial', '', 12);
+        $fpdf->SetFont('Arial', 'B', 15);
         $fpdf->SetTextColor(0,0,0);
         $fpdf->SetXY('30', '45');
         $fpdf->Cell('170', '5', $billInformation->branch, 'B',1,'L');
@@ -111,7 +111,7 @@ class Helper {
         $fpdf->Cell('120', '5', '', 'B',0,'L');
         $fpdf->SetXY('28', '57');
 
-        $fpdf->SetFont('ARIAL', '', 12);
+        $fpdf->SetFont('ARIAL', '', 15);
         $fpdf->SetTextColor(0,0,0);
         $fpdf->Cell('120', '5', $billInformation->name, 0,0,'L');
 
@@ -119,7 +119,7 @@ class Helper {
         $fpdf->SetTextColor(0,71,171);
         $fpdf->SetXY('150', '53');
         $fpdf->Cell('15', '5', 'S. No.', 0, 0, 'L');
-        $fpdf->SetFont('ARIAL', 'B', 12);
+        $fpdf->SetFont('ARIAL', 'B', 15);
         $fpdf->SetTextColor(0,0,0);
 
         $fpdf->Cell('34', '5', $billInformation->bill_no, 'B', 1, 'L');
@@ -128,7 +128,7 @@ class Helper {
         $fpdf->SetTextColor(0,71,171);
         $fpdf->Cell('15', '5', 'Date: ', 0, 0, 'L');
 
-        $fpdf->SetFont('ARIAL', '', 12);
+        $fpdf->SetFont('ARIAL', '', 15);
         $fpdf->SetTextColor(0,0,0);
         $fpdf->Cell('34', '5', $billInformation->billing_date->format('d-M-Y'), 'B', 1, 'L');
 
@@ -139,10 +139,10 @@ class Helper {
         $fpdf->Cell('124', '5', 'D E S C R I P T I O N', 'BL',0,'C');
         $fpdf->Cell('50', '5', 'AMOUNT Rs.', 1,1,'C');
 
-        $fpdf->SetFont('ARIAL', '', 12);
+        $fpdf->SetFont('ARIAL', '', 15);
         $fpdf->SetTextColor(0,0,0);
         $fpdf->Cell('16', '25', '1', 'R',0,'C');
-        $fpdf->Cell('124', '25', $billInformation->description, '',0,'L');
+        $fpdf->Cell('124', '25', ucwords(str_replace('_', ' ', $billInformation->fees_type)).' fees for '.$billInformation->month.' - '.$billInformation->year, '',0,'L');
         $fpdf->Cell('50', '25', $billInformation->total_amount.'/-', 'L',1,'C');
 
 
@@ -150,7 +150,7 @@ class Helper {
         $fpdf->SetTextColor(0,71,171);
         $fpdf->SetXY('10', '97');
         $fpdf->Cell('140', '15', '', 1,0,'L');
-        $fpdf->SetFont('ARIAL', 'B', 12);
+        $fpdf->SetFont('ARIAL', 'B', 15);
         $fpdf->SetTextColor(0,0,0);
         $fpdf->Cell('50', '15', $billInformation->total_amount.'/-', 1,0,'C');
 
@@ -188,7 +188,7 @@ class Helper {
         $fpdf->SetXY('10', '123');
         $fpdf->Cell('20', '5', '(Rupees ', 0,0,'L');
 
-        $fpdf->SetFont('ARIAL', '', 12);
+        $fpdf->SetFont('ARIAL', '', 15);
         $fpdf->SetTextColor(0,0,0);
         $fpdf->Cell('115', '5', self::numberToWord($billInformation->total_amount).' only.', 'B',0,'L');
         $fpdf->SetFont('ARIAL', 'B', 12);
@@ -196,7 +196,8 @@ class Helper {
         $fpdf->Cell('5', '5', ')', 0,0,'R');
         $fpdf->SetFont('ARIAL', 'BI', 12);
         $fpdf->Cell('50', '5', 'Authorised Signatory', 0, 0, 'C');
-        //return $fpdf->Output();
+        /* return $fpdf->Output();
+        exit(); */
         $paymentYear    =   $billInformation->billing_date->format('Y');
         $paymentMonth   =   $billInformation->billing_date->format('F');
         $filename       =   str_replace('/','',$billInformation->bill_no).'.pdf';

@@ -15,7 +15,10 @@ class Bill extends Model
         'branch',
         'name',
         'billing_date',
-        'description',
+        'fees_type',
+        'month',
+        'year',
+        'payment_mode',
         'cheque_no',
         'cheque_issue_date',
         'bank_of_cheque',
@@ -25,6 +28,6 @@ class Bill extends Model
 
     protected $casts    =   [
         'billing_date'  =>  'datetime',
-        'cheque_issue_date' =>  'date'
+        'cheque_issue_date' =>  'datetime'
     ];
 }
