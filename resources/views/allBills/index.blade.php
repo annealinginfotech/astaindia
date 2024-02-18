@@ -48,6 +48,14 @@
                                         <td>
                                             <a href="{{ route('billing.edit', ['billing' => $bill->id]) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
                                             <button class="btn btn-danger btn-sm bill-delete-btn" data-token="{{ csrf_token() }}" data-url="{{ route('billing.destroy', ['billing'   =>  $bill->id]) }}" value="{{ $bill->id }}"><i class="fa fa-trash"></i> Delete</button>
+                                            @isset ($bill->receipt_file)
+                                                {{-- <a href="{{ route('download-payslip', ['id' =>  $bill->id]) }}" class="btn btn-info btn-sm">
+                                                    <i class="fa fa-download"></i> Download
+                                                </a> --}}
+                                                <a href="{{ asset('storage/'.$bill->receipt_file) }}" class="btn btn-info btn-sm" target="_blank">
+                                                    <i class="fa fa-download"></i> Download
+                                                </a>
+                                            @endisset
                                         </td>
                                     </tr>
                                 @empty
@@ -126,6 +134,12 @@
                 }
             });
         });
+
+        if("{{ session()->has('successWithPrint') }}") {
+            console.log('hello');
+        } else {
+            console.log('not');
+        }
     });
 </script>
 @endsection

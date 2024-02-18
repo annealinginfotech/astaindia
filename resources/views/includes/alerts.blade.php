@@ -16,3 +16,9 @@
     </div>
 @endif
 
+
+@if(session('successWithPrint'))
+    <div class="alert alert-success" role="alert">
+        {!! session('successWithPrint') !!}
+    </div>
+@endif

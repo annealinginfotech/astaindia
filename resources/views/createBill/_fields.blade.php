@@ -71,7 +71,7 @@
     </div>
     <div class="form-group col-md-6 mt-5">
         <label for="">Date</label>
-        <input type="date" name="cheque_issue_date" value="@isset($billInformation){{$billInformation->cheque_issue_date}}@endisset" autocomplete="off" class="form-control" placeholder="Choose the cheque issue date"/>
+        <input type="date" name="cheque_issue_date" value="@isset($billInformation){{$billInformation->cheque_issue_date->format('Y-m-d')}}@endisset" autocomplete="off" class="form-control" placeholder="Choose the cheque issue date"/>
     </div>
     <div class="form-group col-md-12">
         <label for="">Bank</label>

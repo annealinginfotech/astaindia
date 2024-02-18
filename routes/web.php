@@ -26,6 +26,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
     Route::resource('/billing', BillingController::class);
     Route::get('/billing-print', [BillingController::class, 'savePrint'])->name('billing.save-print');
+    Route::get('bill-receipt-download/{id}', [BillingController::class, 'downloadPayslip'])->name('download-payslip');
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });

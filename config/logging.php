@@ -141,6 +141,11 @@ return [
             'driver'    =>  'daily',
             'path'      =>  storage_path('logs/billUpdateLogs/operations.log')
         ],
+
+        'receiptGenerateLog'    =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/receiptGenerateLog/operations.log')
+        ],
     ],
 
 ];

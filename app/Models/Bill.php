@@ -19,10 +19,12 @@ class Bill extends Model
         'cheque_no',
         'cheque_issue_date',
         'bank_of_cheque',
-        'total_amount'
+        'total_amount',
+        'receipt_file'
     ];
 
     protected $casts    =   [
-        'billing_date'  =>  'datetime'
+        'billing_date'  =>  'datetime',
+        'cheque_issue_date' =>  'date'
     ];
 }
