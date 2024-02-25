@@ -40,4 +40,27 @@
 <script src="{{ asset('assets/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
+
+
+<script type="text/javascript">
+    var $j  =   jQuery;
+    $j(document).ready(function() {
+        $j('#fees_type').on('change', function() {
+            let feesType    =   $j(this).val();
+            if(feesType == 'others') {
+                $j('#remarks-information').removeClass('d-none');
+                $j('#remarks').prop("disabled", false);
+                $j('#remarks').prop("required", true);
+                $j('#month-section').addClass('d-none');
+                $j('#year-section').addClass('d-none');
+            } else {
+                $j('#remarks-information').addClass('d-none');
+                $j('#remarks').prop("disabled", true);
+                $j('#remarks').prop("required", false);
+                $j('#month-section').removeClass('d-none');
+                $j('#year-section').removeClass('d-none');
+            }
+        });
+    });
+</script>
 @endsection

@@ -26,8 +26,9 @@ class BillCreateFormRequest extends FormRequest
             'billing_date'      =>  'required',
             'name'              =>  'required',
             'fees_type'         =>  'required',
-            'month'             =>  'required',
-            'year'              =>  'required',
+            'month'             =>  'required_if:fees_type,admission,monthly',
+            'year'              =>  'required_if:fees_type,admission,monthly',
+            'remarks'           =>  'required_if:fees_type,others',
             'payment_mode'      =>  'required',
             'total_amount'      =>  'required',
             'cheque_no'         =>  'nullable',
@@ -47,6 +48,7 @@ class BillCreateFormRequest extends FormRequest
             'year'                      =>  'Year is required',
             'payment_mode'              =>  'Payment mode is required',
             'total_amount.required'     =>  'Amount is required',
+            'remarks_required_if'          =>  'Remarks is required'
         ];
     }
 }

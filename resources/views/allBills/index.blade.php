@@ -136,12 +136,6 @@
                 }
             });
         });
-
-        if("{{ session()->has('successWithPrint') }}") {
-            console.log('hello');
-        } else {
-            console.log('not');
-        }
     });
 </script>
 @endsection

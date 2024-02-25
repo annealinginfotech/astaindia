@@ -58,7 +58,7 @@ class Helper {
             $words  = trim( str_replace( ' ,' , ',' , ucwords( $words ) )  , ', ' );
             if( $commas )
             {
-                $words  = str_replace( ',' , ' and' , $words );
+                $words  = str_replace( ',' , '' , $words );
             }
 
             return $words;
@@ -139,11 +139,21 @@ class Helper {
         $fpdf->Cell('124', '5', 'D E S C R I P T I O N', 'BL',0,'C');
         $fpdf->Cell('50', '5', 'AMOUNT Rs.', 1,1,'C');
 
-        $fpdf->SetFont('ARIAL', '', 15);
+        $fpdf->SetFont('ARIAL', '', 12);
         $fpdf->SetTextColor(0,0,0);
         $fpdf->Cell('16', '25', '1', 'R',0,'C');
-        $fpdf->Cell('124', '25', ucwords(str_replace('_', ' ', $billInformation->fees_type)).' fees for '.$billInformation->month.' - '.$billInformation->year, '',0,'L');
-        $fpdf->Cell('50', '25', $billInformation->total_amount.'/-', 'L',1,'C');
+        if($billInformation->fees_type == 'others')
+        {
+            $fpdf->Cell('124', '20', $billInformation->remarks, 0,2,'L');
+            $fpdf->Cell('124', '5', 'Payment Mode: '.$billInformation->payment_mode, 0,0,'L');
+        }
+        else
+        {
+            $fpdf->Cell('124', '20', ucwords(str_replace('_', ' ', $billInformation->fees_type)).' fees for '.$billInformation->month.' - '.$billInformation->year, 0,2,'L');
+            $fpdf->Cell('124', '5', 'Payment Mode: '.$billInformation->payment_mode, 0,0,'L');
+        }
+        $fpdf->SetXY('150', '67');
+        $fpdf->Cell('50', '30', $billInformation->total_amount.'/-', 'L',1,'C');
 
 
         $fpdf->SetFont('ARIAL', 'B', 12);
@@ -188,7 +198,7 @@ class Helper {
         $fpdf->SetXY('10', '123');
         $fpdf->Cell('20', '5', '(Rupees ', 0,0,'L');
 
-        $fpdf->SetFont('ARIAL', '', 15);
+        $fpdf->SetFont('ARIAL', '', 12);
         $fpdf->SetTextColor(0,0,0);
         $fpdf->Cell('115', '5', self::numberToWord($billInformation->total_amount).' only.', 'B',0,'L');
         $fpdf->SetFont('ARIAL', 'B', 12);

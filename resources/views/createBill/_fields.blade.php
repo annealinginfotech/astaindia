@@ -40,7 +40,7 @@
         @enderror
     </div>
 
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-3 {{ (isset($billInformation) && $billInformation->fees_type == 'others') ? 'd-none' : '' }}" id="month-section">
         <label for="month">Month</label><code>*</code>
         <select class="form-control @error('month') is-invalid @enderror" name="month" id="month">
             <option value="" selected disabled>-- Select month --</option>
@@ -53,7 +53,7 @@
         @enderror
     </div>
 
-    <div class="form-group col-md-2">
+    <div class="form-group col-md-2 {{ (isset($billInformation) && $billInformation->fees_type == 'others') ? 'd-none' : '' }}" id="year-section">
         <label for="year">Year</label><code>*</code>
         <select class="form-control @error('year') is-invalid @enderror" name="year" id="year">
             <option value="" selected disabled>-- Select year --</option>
@@ -63,6 +63,14 @@
         </select>
         @error('year')
             <span id="year-error" class="error invalid-feedback">{{ $message }}</span>
+        @enderror
+    </div>
+
+    <div class="form-group col-md-5 {{ (isset($billInformation) && $billInformation->remarks) ? '' : 'd-none' }}" id="remarks-information">
+        <label for="remarks">Remarks</label><code>*</code> <small>(Words limit 60)</small>
+        <input type="text" class="form-control" id="remarks" name="remarks" maxlength="60" placeholder="Enter the remarks here" {{ (isset($billInformation) && $billInformation->fees_type == 'others') ? 'required' : 'disabled' }} value="{{ (isset($billInformation) && $billInformation->fees_type == 'others') ? $billInformation->remarks : '' }}" />
+        @error('remarks')
+            <span id="remarks-error" class="error invalid-feedback">{{ $message }}</span>
         @enderror
     </div>
 

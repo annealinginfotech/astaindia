@@ -23,7 +23,8 @@ class Bill extends Model
         'cheque_issue_date',
         'bank_of_cheque',
         'total_amount',
-        'receipt_file'
+        'receipt_file',
+        'remarks'
     ];
 
     protected $casts    =   [
