@@ -29,6 +29,21 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-3 col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-one">
+                    <div class="stat-icon dib">
+                        <i class="ti-stats-up text-info border-info"></i>
+                    </div>
+                    <div class="stat-content dib">
+                        <div class="stat-text">Today's Bill generated</div>
+                        <div class="stat-digit">{{ $todayBillCount }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 

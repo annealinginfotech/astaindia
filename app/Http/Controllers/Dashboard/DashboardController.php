@@ -13,11 +13,13 @@ class DashboardController extends Controller
     {
         $this->addBreadcrumb('Dashboard', '#', 'active');
         $totalBillCount =   Bill::count();
+        $todayCount     =   Bill::whereDate('billing_date', Carbon::today())->count();
 
         $data   =   [
             'title'             =>  'Dashboard',
             'breadCrumbs'       =>  $this->breadcrumbs,
             'totalBillCount'    =>  $totalBillCount,
+            'todayBillCount'    =>  $todayCount
         ];
         return view('dashboard')->with($data);
     }
