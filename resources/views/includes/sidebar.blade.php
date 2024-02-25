@@ -29,11 +29,11 @@
                 </a>
             </li>
 
-            <li>
-                <a href="widgets.html">
+            {{-- <li>
+                <a href="{{ route('export.bill') }}">
                     <i class="menu-icon ti-export"></i>Export bill
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
     <!-- /.navbar-collapse -->

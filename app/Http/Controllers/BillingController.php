@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Helper;
+use App\Exports\BillExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Log;
 
 
@@ -181,5 +183,9 @@ class BillingController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
+    }
+
+    public function export() {
+        return Excel::download(new BillExport, 'users.xlsx');
     }
 }

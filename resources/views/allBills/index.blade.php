@@ -21,16 +21,17 @@
                 @include('includes.alerts')
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">List of Bills</strong>
+                        <strong class="card-title float-left">List of Bills</strong>
+                        <div id="tableActions" class="float-right"></div>
                     </div>
                     <div class="card-body table-responsive">
-                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Bill No.</th>
                                     <th>Branch</th>
-                                    <th>Type</th>
+                                    <th>Particulars</th>
                                     <th>Name</th>
                                     <th>Billing Date</th>
                                     <th>Amount</th>
@@ -43,7 +44,14 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $bill->bill_no }}</td>
                                         <td>{{ $bill->branch }}</td>
-                                        <td>{{ ucwords(str_replace('_', ' ', $bill->fees_type)) }} Fees</td>
+                                        <td>
+                                            @if ($bill->fees_type == 'others')
+                                                {{ $bill->remarks }}
+                                            @else
+                                                {{ ucwords(str_replace('_', ' ', $bill->fees_type)) }} Fees {{ $bill->month.' - '.$bill->year }}
+                                            @endif
+
+                                        </td>
                                         <td>{{ $bill->name }}</td>
                                         <td>{{ $bill->billing_date->format('d M, Y') }}</td>
                                         <td>&#8377;{{ $bill->total_amount }}</td>
@@ -98,7 +106,6 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#bootstrap-data-table-export').DataTable();
 
         $('.bill-delete-btn').on('click', function() {
 
