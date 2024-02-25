@@ -200,7 +200,7 @@ class Helper {
         exit(); */
         $paymentYear    =   $billInformation->billing_date->format('Y');
         $paymentMonth   =   $billInformation->billing_date->format('F');
-        $filename       =   str_replace('/','',$billInformation->bill_no).'.pdf';
+        $filename       =   $billInformation->bill_no.str_replace(' ','', $billInformation->name).$paymentMonth.$paymentYear.'.pdf';
         $storingPath    =   'payslips/'.$paymentYear.'/'.$paymentMonth;
         try {
             Storage::disk('public')->makeDirectory($storingPath);
