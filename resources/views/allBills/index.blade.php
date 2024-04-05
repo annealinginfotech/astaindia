@@ -27,7 +27,7 @@
                     <div class="card-body table-responsive">
                         <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                             <thead>
-                                <tr>
+                                <tr class="text-nowrap">
                                     <th>#</th>
                                     <th>Bill No.</th>
                                     <th>Branch</th>
@@ -55,7 +55,7 @@
                                         <td>{{ $bill->name }}</td>
                                         <td>{{ $bill->billing_date->format('d M, Y') }}</td>
                                         <td>&#8377;{{ $bill->total_amount }}</td>
-                                        <td>
+                                        <td class="text-nowrap">
                                             <a href="{{ route('billing.edit', ['billing' => $bill->id]) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
                                             <button class="btn btn-danger btn-sm bill-delete-btn" data-token="{{ csrf_token() }}" data-url="{{ route('billing.destroy', ['billing'   =>  $bill->id]) }}" value="{{ $bill->id }}"><i class="fa fa-trash"></i> Delete</button>
                                             @isset ($bill->receipt_file)

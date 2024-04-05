@@ -63,7 +63,7 @@
                 titleAttr: 'CSV',
                 className: 'btn btn-default btn-sm',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -72,7 +72,7 @@
                 titleAttr: 'Excel',
                 className: 'btn btn-default btn-sm',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -81,7 +81,7 @@
                 titleAttr: 'PDF',
                 className: 'btn btn-default btn-sm',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -90,7 +90,7 @@
                 titleAttr: 'Print',
                 className: 'btn btn-default btn-sm',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             },
         ]
