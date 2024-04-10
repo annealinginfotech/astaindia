@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Bill;
 use Carbon\Carbon;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -19,7 +20,8 @@ class DashboardController extends Controller
             'title'             =>  'Dashboard',
             'breadCrumbs'       =>  $this->breadcrumbs,
             'totalBillCount'    =>  $totalBillCount,
-            'todayBillCount'    =>  $todayCount
+            'todayBillCount'    =>  $todayCount,
+            'userCount'         =>  User::count()
         ];
         return view('dashboard')->with($data);
     }

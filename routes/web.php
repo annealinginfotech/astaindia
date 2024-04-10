@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\UserCreationAuthority;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,8 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/billing-print', [BillingController::class, 'savePrint'])->name('billing.save-print');
     Route::get('bill-receipt-download/{id}', [BillingController::class, 'downloadPayslip'])->name('download-payslip');
     Route::get('/bill-export/download', [BillingController::class, 'export'])->name('export.bill');
+
+    Route::resource('/users', UserController::class)->middleware(UserCreationAuthority::class);
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });

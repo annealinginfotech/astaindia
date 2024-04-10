@@ -6,8 +6,7 @@
         <div class="col-sm-7">
             <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
             <div class="header-left">
-
-
+                <h5>Hello, {{ auth()->user()->name }}!</h5>
             </div>
         </div>
 
@@ -18,7 +17,6 @@
                 </a>
 
                 <div class="user-menu dropdown-menu">
-                    <a class="nav-link" href="#"><i class="fa fa- user"></i>Change Password</a>
                     <a class="nav-link" href="{{ route('logout') }}"><i class="fa fa-power -off"></i>Logout</a>
                 </div>
             </div>

@@ -24,11 +24,18 @@ class Bill extends Model
         'bank_of_cheque',
         'total_amount',
         'receipt_file',
-        'remarks'
+        'remarks',
+        'added_by'
     ];
 
     protected $casts    =   [
         'billing_date'  =>  'datetime',
         'cheque_issue_date' =>  'datetime'
     ];
+
+    public function generatedBy() {
+        return $this->belongsTo(User::class, 'added_by', 'id')->withTrashed()->select('id', 'name');
+    }
+
+    //protected $appends  =   ['generated_by'];
 }

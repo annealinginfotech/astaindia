@@ -22,3 +22,9 @@
         {!! session('successWithPrint') !!}
     </div>
 @endif
+
+@if(session('smartMove'))
+    <div class="alert alert-warning" role="alert">
+        {!! session('smartMove') !!}
+    </div>
+@endif

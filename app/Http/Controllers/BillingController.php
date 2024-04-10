@@ -23,7 +23,7 @@ class BillingController extends Controller
     {
         $this->addBreadcrumb('Dashboard', '/', '');
         $this->addBreadcrumb('All bill', '#', 'active');
-        $bills  =   Bill::all();
+        $bills  =   Bill::with('generatedBy')->orderBy('bill_no', 'DESC')->get();
         $data   =   [
             'title'     =>  'All bills',
             'breadCrumbs'   =>  $this->breadcrumbs,
@@ -71,6 +71,7 @@ class BillingController extends Controller
             $latestBillNumber   =   ($lastBillNumber) ? $lastBillNumber+1 : 1001;
 
             $inputs['bill_no']  =   $latestBillNumber;
+            $inputs['added_by'] =   auth()->user()->id;
             $billInformation    =   Bill::create($inputs);
         } catch (\Throwable $th) {
             Log::channel('billCreation')->debug('Error creating a bill. Cause: '.$th->getMessage());

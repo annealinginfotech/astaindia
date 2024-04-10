@@ -14,6 +14,7 @@
 
 @section('content')
 <div class="content mt-3">
+    @include('includes.alerts')
     <div class="col-xl-3 col-lg-6">
         <div class="card">
             <div class="card-body">
@@ -44,6 +45,24 @@
             </div>
         </div>
     </div>
+    @if (auth()->user()->can_create_user)
+        <div class="col-xl-3 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-widget-one">
+                        <div class="stat-icon dib">
+                            <i class="fa fa-users text-info border-info"></i>
+                        </div>
+                        <div class="stat-content dib">
+                            <div class="stat-text">Total Users</div>
+                            <div class="stat-digit">{{ $userCount }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
 </div>
 @endsection
 
