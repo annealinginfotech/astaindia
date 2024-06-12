@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\User\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
+})->middleware('guest')->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest')->name('login-operation');
+
+Route::middleware(['auth'])->group(function() {
+    Route::get('home', [DashboardController::class, 'index'])->name('home');
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+
+    Route::get('users', [UserController::class, 'index'])->name('users.all');
 });
