@@ -5,6 +5,8 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Roles_And_Permissions\RolesController;
+use App\Http\Controllers\Roles_And_Permissions\PermissionsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,4 +33,5 @@ Route::middleware(['auth'])->group(function() {
     Route::get('users', [UserController::class, 'index'])->name('users.all');
 
     Route::resource('roles', RolesController::class);
+    Route::resource('permissions', PermissionsController::class);
 });
