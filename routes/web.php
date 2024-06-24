@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
-use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Roles_And_Permissions\RolesController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,4 +29,6 @@ Route::middleware(['auth'])->group(function() {
 
 
     Route::get('users', [UserController::class, 'index'])->name('users.all');
+
+    Route::resource('roles', RolesController::class);
 });

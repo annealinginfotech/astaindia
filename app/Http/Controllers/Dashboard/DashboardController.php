@@ -9,6 +9,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('Dashboard.index');
+        $data   =   [
+            'title' =>  'Home',
+        ];
+        return view('Dashboard.index')->with($data);
     }
 }
