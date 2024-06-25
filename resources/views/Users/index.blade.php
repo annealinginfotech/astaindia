@@ -14,14 +14,13 @@
                         Overview
                     </div>
                     <h2 class="page-title">
-                        Dashboard
+                        Users
                     </h2>
                 </div>
                 <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="#" class="btn btn-success d-none d-sm-inline-block" data-bs-toggle="modal"
-                            data-bs-target="#modal-report">
+                        <a href="{{route('users.create')}}" class="btn btn-success d-none d-sm-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M16 19h6" /><path d="M19 16v6" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4" /></svg>
                             New User
@@ -52,6 +51,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
+                                <th>Role</th>
                                 <th>Email</th>
                                 <th>Created on</th>
                                 <th>Action</th>
@@ -62,11 +62,12 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->name }}</td>
+                                    <td><span class="badge bg-{{($item->roles[0]['name'] == 'Super Admin') ? 'red-lt' : 'green-lt'}}">{{$item->roles[0]['name']}}</span></td>
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->created_at->format('d-M-y') }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">Perform</button>
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle btn-pill" data-bs-toggle="dropdown">Perform</button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="#">
                                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-folder-open"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 19l2.757 -7.351a1 1 0 0 1 .936 -.649h12.307a1 1 0 0 1 .986 1.164l-.996 5.211a2 2 0 0 1 -1.964 1.625h-14.026a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2h4l3 3h7a2 2 0 0 1 2 2v2" /></svg>
@@ -104,7 +105,7 @@
     <script>
         new DataTable('#example', {
             layout: {
-                topStart: {
+                top: {
                     buttons: ['copy', 'excel', 'pdf', 'colvis']
                 }
             }

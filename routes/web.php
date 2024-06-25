@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 
-    Route::get('users', [UserController::class, 'index'])->name('users.all');
+    Route::resource('users', UserController::class);
 
     Route::resource('roles', RolesController::class);
     Route::resource('permissions', PermissionsController::class);

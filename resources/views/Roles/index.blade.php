@@ -163,7 +163,7 @@
     <script>
         new DataTable('#example', {
             layout: {
-                topStart: {
+                top: {
                     buttons: ['copy', 'excel', 'pdf', 'colvis']
                 }
             }
