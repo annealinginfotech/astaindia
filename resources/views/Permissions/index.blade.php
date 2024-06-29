@@ -29,9 +29,9 @@
                                 <path d="M12 5l0 14" />
                                 <path d="M5 12l14 0" />
                             </svg>
-                            New Permission
+                            Add new
                         </button>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-success d-sm-none btn-icon" data-bs-toggle="modal"
                             data-bs-target="#createPermission" aria-label="Create new report">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -40,7 +40,7 @@
                                 <path d="M12 5l0 14" />
                                 <path d="M5 12l14 0" />
                             </svg>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">New Permission</h5>
+                    <h5 class="modal-title" id="createPermissionModalTitle">New Permission</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form name="permission-create-form" method="POST" action="{{route('permissions.store')}}">
@@ -123,7 +123,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Permission Name</label>
-                            <input type="text" class="form-control" name="permission_name" id="permission_name" placeholder="e.g. User" oninput="this.value = this.value.toLowerCase()">
+                            <input type="text" class="form-control" name="permission_name" id="permission_name" placeholder="e.g. user-create" oninput="this.value = this.value.toLowerCase()">
                         </div>
                         <input type="hidden" name="permission_id" id="permission_id" value="" />
                     </div>
@@ -132,7 +132,7 @@
                         <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
                             Cancel
                         </a>
-                        <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+                        <button type="submit" class="btn btn-primary ms-auto" id="createPermisisonModalBtn" data-bs-dismiss="modal">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg>
                             Save
@@ -214,8 +214,18 @@
                     $('#permission_group_name').val(response.group_name);
                     $('#permission_name').val(response.name);
                     $('#permission_id').val(response.id);
+                    $('#createPermissionModalTitle').html('Edit permission');
+                    $('#createPermisisonModalBtn').html('<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg>Update')
                 }
             });
+        });
+
+        $('#createPermission').on('hidden.bs.modal', function () {
+            $('#createPermissionModalTitle').html('New permission');
+            $('#permission_group_name').val("");
+            $('#permission_name').val("");
+            $('#permission_id').val("");
+            $('#createPermisisonModalBtn').html('<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg>Save');
         });
 
         $("#example").on('click', '.delete-confirm', function() {

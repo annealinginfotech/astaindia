@@ -89,15 +89,15 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
-                                    <a class="dropdown-item" href="{{route('roles.index')}}">
+                                    <a class="dropdown-item {{(request()->is('roles*')) ? 'active' : ''}}" href="{{route('roles.index')}}">
                                         <span style="margin-right: 10px;"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-id"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" /><path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M15 8l2 0" /><path d="M15 12l2 0" /><path d="M7 16l10 0" /></svg></span>
                                         <span>Roles</span>
                                     </a>
-                                    <a class="dropdown-item" href="{{route('permissions.index')}}">
+                                    <a class="dropdown-item {{(request()->is('permissions*')) ? 'active' : ''}}" href="{{route('permissions.index')}}">
                                         <span style="margin-right: 10px;"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-wand"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 21l15 -15l-3 -3l-15 15l3 3" /><path d="M15 6l3 3" /><path d="M9 3a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" /><path d="M19 13a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" /></svg></span>
                                         <span>Permission</span>
                                     </a>
-                                    <a class="dropdown-item" href="{{route('users.index')}}">
+                                    <a class="dropdown-item {{(request()->is('users*')) ? 'active' : ''}}" href="{{route('users.index')}}">
                                         <span style="margin-right: 10px"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg></span>
                                         <span>List of Users</span>
                                     </a>
@@ -131,7 +131,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item dropdown {{(request()->is('base-course*') || request()->is('main-course')) ? 'active' : ''}}">
+                    <li class="nav-item dropdown {{(request()->is('base-course*') || request()->is('main-course*')) ? 'active' : ''}}">
                         <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
                             data-bs-auto-close="outside" role="button" aria-expanded="false">
                             <span
@@ -145,11 +145,11 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
-                                    <a class="dropdown-item {{(request()->is('base-course') || request()->is('base-course/create')) ? 'active' : ''}}" href="{{route('base-course.index')}}">
+                                    <a class="dropdown-item {{(request()->is('base-course*')) ? 'active' : ''}}" href="{{route('base-course.index')}}">
                                         <span style="margin-right: 10px;"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-book"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" /><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" /><path d="M3 6l0 13" /><path d="M12 6l0 13" /><path d="M21 6l0 13" /></svg></span>
                                         <span>Base course</span>
                                     </a>
-                                    <a class="dropdown-item {{(request()->is('main-course') || request()->is('main-course/create')) ? 'active' : ''}}" href="{{route('main-course.index')}}">
+                                    <a class="dropdown-item {{(request()->is('main-course*')) ? 'active' : ''}}" href="{{route('main-course.index')}}">
                                         <span style="margin-right: 10px;"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-certificate"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 15m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M13 17.5v4.5l2 -1.5l2 1.5v-4.5" /><path d="M10 19h-5a2 2 0 0 1 -2 -2v-10c0 -1.1 .9 -2 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -1 1.73" /><path d="M6 9l12 0" /><path d="M6 12l3 0" /><path d="M6 15l2 0" /></svg></span>
                                         <span>Main course</span>
                                     </a>
