@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Courses;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BaseCourse;
+use App\Models\MainCourse;
 use Log;
 
 class BaseCourseController extends Controller
@@ -114,5 +115,13 @@ class BaseCourseController extends Controller
         }
 
         return redirect()->route('base-course.index')->with('deleted', 'Base course deleted.');
+    }
+
+    public function getMainCourse($id) {
+        $mainCourse     =   MainCourse::where('base_course_id', $id)->get();
+        if($mainCourse)
+            return response()->json(['status' => true, 'data' => $mainCourse],200);
+        else
+            return response()->json(['status' => false, 'data' => $mainCourse],404);
     }
 }

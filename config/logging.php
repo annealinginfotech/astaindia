@@ -179,6 +179,24 @@ return [
             'driver'    =>  'daily',
             'path'      =>  storage_path('logs/course/mainCourse/delete/operation.log'),
             'level'     =>  'info'
+        ],
+
+        'feesStructureCreateLog'   =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/feesStructure/create/operation.log'),
+            'level'     =>  'info'
+        ],
+
+        'feesStructureUpdateLog'   =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/feesStructure/update/operation.log'),
+            'level'     =>  'info'
+        ],
+
+        'feesStructureDeleteLog'   =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/feesStructure/delete/operation.log'),
+            'level'     =>  'info'
         ]
     ],
 
