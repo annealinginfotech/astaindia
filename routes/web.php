@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Courses\BaseCourseController;
 use App\Http\Controllers\Roles_And_Permissions\RolesController;
 use App\Http\Controllers\Roles_And_Permissions\PermissionsController;
 
@@ -36,4 +37,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::resource('roles', RolesController::class);
     Route::resource('permissions', PermissionsController::class);
+
+    /* ============= Course routing ============ */
+    Route::resource('base-course', BaseCourseController::class);
 });
