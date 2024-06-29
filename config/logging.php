@@ -131,6 +131,18 @@ return [
             'driver'    =>  'daily',
             'path'      =>  storage_path('logs/user/create/operation.log'),
             'level'     =>  'info'
+        ],
+
+        'userUpdateLog'   =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/user/update/operation.log'),
+            'level'     =>  'info'
+        ],
+
+        'userBlockLog'   =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/user/block/operation.log'),
+            'level'     =>  'info'
         ]
     ],
 

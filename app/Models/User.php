@@ -5,13 +5,17 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
+use App\Enums\UserStatus;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +26,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'added_by',
+        'status'
     ];
 
     /**
@@ -62,5 +68,35 @@ class User extends Authenticatable
 
     public function contactDetails() {
         return $this->hasOne(UserContactDetails::class, 'user_id', 'id');
+    }
+
+    public function getAgeAttribute() {
+        return Carbon::parse($this->profile->date_of_birth)->age;
+    }
+
+    public function getAddedByNameAttribute() {
+        return User::findOrFail($this->added_by)->value('name');
+    }
+
+    public function getDpAttribute() {
+        if($this->documents) {
+            return asset('storage/'.$this->documents->photo);
+        } else {
+            return asset('static/avatars/default.png');
+        }
+
+    }
+
+    public function getStatus(){
+        switch ($this->status) {
+            case UserStatus::ACTIVE:
+                return ['color' => 'status-green', 'status' =>  'Active'];
+                break;
+            case UserStatus::BLOCK:
+                return ['color' => 'status-red', 'status' =>  'Inactive'];
+            default:
+                return ['color' => 'status-info', 'status' =>  ucfirst($this->status)];
+                break;
+        }
     }
 }

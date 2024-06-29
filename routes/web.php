@@ -31,6 +31,8 @@ Route::middleware(['auth'])->group(function() {
 
 
     Route::resource('users', UserController::class);
+    Route::post('users/block', [UserController::class, 'block'])->name('users.block');
+    Route::post('users/unblock', [UserController::class, 'unblock'])->name('users.unblock');
 
     Route::resource('roles', RolesController::class);
     Route::resource('permissions', PermissionsController::class);
