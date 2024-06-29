@@ -16,7 +16,6 @@ return new class extends Migration
             $table->text('course_code');
             $table->bigInteger('base_course_id');
             $table->text('name');
-            $table->string('level');
             $table->string('min_qualification');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();

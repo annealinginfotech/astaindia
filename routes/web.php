@@ -5,6 +5,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Courses\BaseCourseController;
+use App\Http\Controllers\Courses\MainCourseController;
 use App\Http\Controllers\Roles_And_Permissions\RolesController;
 use App\Http\Controllers\Roles_And_Permissions\PermissionsController;
 
@@ -40,4 +41,5 @@ Route::middleware(['auth'])->group(function() {
 
     /* ============= Course routing ============ */
     Route::resource('base-course', BaseCourseController::class);
+    Route::resource('main-course', MainCourseController::class);
 });

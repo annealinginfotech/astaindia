@@ -161,6 +161,24 @@ return [
             'driver'    =>  'daily',
             'path'      =>  storage_path('logs/course/baseCourse/delete/operation.log'),
             'level'     =>  'info'
+        ],
+
+        'mainCourseCreateLog'   =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/course/mainCourse/create/operation.log'),
+            'level'     =>  'info'
+        ],
+
+        'mainCourseUpdateLog'   =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/course/mainCourse/update/operation.log'),
+            'level'     =>  'info'
+        ],
+
+        'mainCourseDeleteLog'   =>  [
+            'driver'    =>  'daily',
+            'path'      =>  storage_path('logs/course/mainCourse/delete/operation.log'),
+            'level'     =>  'info'
         ]
     ],
 
