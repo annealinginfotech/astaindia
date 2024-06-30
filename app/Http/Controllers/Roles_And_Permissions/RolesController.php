@@ -20,7 +20,7 @@ class RolesController extends Controller
             'roles'     =>  $roles
         ];
 
-        return view('roles.index')->with($data);
+        return view('Roles.index')->with($data);
     }
 
     /**
@@ -41,7 +41,7 @@ class RolesController extends Controller
             'permissions'   =>  $permission->all()
         ];
 
-        return view('roles.create')->with($data);
+        return view('Roles.create')->with($data);
     }
 
     /**
@@ -62,7 +62,7 @@ class RolesController extends Controller
 
         $role->syncPermissions($selectedPermissionSets);
 
-        return redirect()->route('roles.index')
+        return redirect()->route('Roles.index')
                         ->with('success','Role created successfully');
     }
 
@@ -103,7 +103,7 @@ class RolesController extends Controller
             'assignedPermission'    =>  $rolePermissions
         ];
 
-        return view('roles.edit')->with($data);
+        return view('Roles.edit')->with($data);
     }
 
     /**
