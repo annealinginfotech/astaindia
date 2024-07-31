@@ -117,7 +117,7 @@ class UserController extends Controller
 
         } catch (\Throwable $th) {
             Log::channel('userCreationLog')->info('Error creation on Management personel. Reason: '.$th);
-            return $th;
+            return redirect()->route('users.index')->with('error', 'Something went wrong. Please try again later.');
         }
 
         return redirect()->route('users.index')->with('success', $request->name.' is now a User of A.S.T.A India.');

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Zone\ZoneController;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Courses\BaseCourseController;
@@ -47,4 +48,8 @@ Route::middleware(['auth'])->group(function() {
 
     /* ======== Fees strucure routing ========== */
     Route::resource('fees-structure', FeesStructureController::class);
+
+    /* ============ Zone routine =============== */
+    Route::resource('zone', ZoneController::class);
+    Route::get('/zone/get-parent-zone/{id}', [ZoneController::class, 'getParentZone'])->name('zone.get-parent');
 });

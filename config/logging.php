@@ -197,6 +197,12 @@ return [
             'driver'    =>  'daily',
             'path'      =>  storage_path('logs/feesStructure/delete/operation.log'),
             'level'     =>  'info'
+        ],
+
+        'zoneCreateLog'         =>  [
+            'driver'    =>  'single',
+            'path'      =>  storage_path('logs/zone/create/operation.log'),
+            'level'     =>  'info'
         ]
     ],
 
