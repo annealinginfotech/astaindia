@@ -25,7 +25,8 @@ class Bill extends Model
         'total_amount',
         'receipt_file',
         'remarks',
-        'added_by'
+        'added_by',
+        'other_information'
     ];
 
     protected $casts    =   [

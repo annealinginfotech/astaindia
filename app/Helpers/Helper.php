@@ -144,12 +144,14 @@ class Helper {
         $fpdf->Cell('16', '25', '1', 'R',0,'C');
         if($billInformation->fees_type == 'others')
         {
-            $fpdf->Cell('124', '20', $billInformation->remarks, 0,2,'L');
+            $otherInformation   =   ($billInformation->other_information) ? ' ('.$billInformation->other_information.')' : NULL;
+            $fpdf->Cell('124', '20', $billInformation->remarks.$otherInformation, 0,2,'L');
             $fpdf->Cell('124', '5', 'Payment Mode: '.$billInformation->payment_mode, 0,0,'L');
         }
         else
         {
-            $fpdf->Cell('124', '20', ucwords(str_replace('_', ' ', $billInformation->fees_type)).' fees for '.$billInformation->month.' - '.$billInformation->year, 0,2,'L');
+            $otherInformation   =   ($billInformation->other_information) ? ' ('.$billInformation->other_information.')' : NULL;
+            $fpdf->Cell('124', '20', ucwords(str_replace('_', ' ', $billInformation->fees_type)).' fees for '.$billInformation->month.' - '.$billInformation->year.$otherInformation, 0,2,'L');
             $fpdf->Cell('124', '5', 'Payment Mode: '.$billInformation->payment_mode, 0,0,'L');
         }
         $fpdf->SetXY('150', '67');

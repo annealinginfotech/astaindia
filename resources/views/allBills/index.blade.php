@@ -56,7 +56,7 @@
                                         <td>{{ $bill->name }}</td>
                                         <td>{{ $bill->billing_date->format('d M, Y') }}</td>
                                         <td>&#8377;{{ $bill->total_amount }}</td>
-                                        <td>{{ $bill->generatedBy->name }} <a href="{{ route('users.edit', ['user' => $bill->added_by]) }}" target="_blank"><i class="fa fa-external-link"></i></a></td>
+                                        <td class="text-nowrap">{{ $bill->generatedBy->name }} <a href="{{ route('users.edit', ['user' => $bill->added_by]) }}" target="_blank"><i class="fa fa-external-link"></i></a></td>
                                         <td class="text-nowrap">
                                             @if (auth()->user()->can_generate_bill)
                                                 <a href="{{ route('billing.edit', ['billing' => $bill->id]) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
