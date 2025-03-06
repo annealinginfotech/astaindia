@@ -24,7 +24,7 @@
                         <strong class="card-title float-left">List of Users</strong>
                     </div>
                     <div class="card-body table-responsive">
-                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered" id="userTable">
                             <thead>
                                 <tr class="text-nowrap">
                                     <th>#</th>
@@ -83,7 +83,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        $('.bill-delete-btn').on('click', function() {
+        $(document).on('click', '.bill-delete-btn', function() {
 
             Swal.fire({
                 title: "Are you sure?",
