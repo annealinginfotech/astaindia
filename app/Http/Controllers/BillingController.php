@@ -72,7 +72,15 @@ class BillingController extends Controller
 
             $inputs['bill_no']  =   $latestBillNumber;
             $inputs['added_by'] =   auth()->user()->id;
-            $billInformation    =   Bill::create($inputs);
+
+            $lateFine                       =   ($request->late_fine) ?? 0;
+            $inputs['late_fine']            =   $lateFine;
+            $inputs['total_bill_amount']    =   $request->total_amount + $lateFine;
+
+            $billInformation                =   Bill::create($inputs);
+
+
+
         } catch (\Throwable $th) {
             Log::channel('billCreation')->debug('Error creating a bill. Cause: '.$th->getMessage());
             return redirect()->back()->with('internalError', "Unable to create the Bill. Please try again later.");
@@ -188,5 +196,12 @@ class BillingController extends Controller
 
     public function export() {
         return Excel::download(new BillExport, 'users.xlsx');
+    }
+
+
+    public function savePrint($id) {
+        $billInformation    =   Bill::where('id', $id)->first();
+
+        return Helper::genereatePaySlipPDF($billInformation);
     }
 }

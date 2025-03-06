@@ -88,16 +88,19 @@ class Helper {
         $fpdf->SetXY('40', '25');
         $fpdf->Cell('155', '5', 'Mob. : +91 9433922339 / +91 7980112359', 0, 0, 'C');
         $fpdf->SetXY('40', '30');
-        $fpdf->Cell('155', '5', 'E-mail: info@astaindia.org | Website: www.astaindia.org', 0, 1, 'C');
-
-        $fpdf->Ln(10);
+        $fpdf->Cell('155', '5', 'E-mail: info@astaindia.org | Website: www.astaindia.org', 0, 0, 'C');
+        $fpdf->SetXY('40', '35');
         $fpdf->SetFont('Arial', 'B', 12);
+        $fpdf->Cell('155', '5', 'BRANCH - '.strtoupper($billInformation->branch), 0,1,'C');
+
+        $fpdf->Ln(12);
+        /* $fpdf->SetFont('Arial', 'B', 12);
         $fpdf->Cell('18', '5', 'Branch: ', 0, 0, 'L');
         $fpdf->SetFont('Arial', 'B', 15);
         $fpdf->SetTextColor(0,0,0);
         $fpdf->SetXY('30', '45');
-        $fpdf->Cell('170', '5', $billInformation->branch, 'B',1,'L');
-        $fpdf->Ln(2);
+        $fpdf->Cell('170', '5', 'BRANCH - '.strtoupper($billInformation->branch), 'B',1,'L');
+        $fpdf->Ln(2); */
 
         $fpdf->SetFont('ARIAL', 'B', 13);
         $fpdf->SetTextColor(0,71,171);
@@ -117,13 +120,16 @@ class Helper {
 
         $fpdf->SetFont('ARIAL', 'B', 13);
         $fpdf->SetTextColor(0,71,171);
-        $fpdf->SetXY('150', '53');
+        $fpdf->SetXY('150', '5');
         $fpdf->Cell('15', '5', 'S. No.', 0, 0, 'L');
         $fpdf->SetFont('ARIAL', 'B', 15);
         $fpdf->SetTextColor(0,0,0);
 
-        $fpdf->Cell('34', '5', $billInformation->bill_no, 'B', 1, 'L');
-        $fpdf->SetXY('150', '60');
+        $fpdf->Cell('34', '5', 'AIB'.$billInformation->bill_no, 'B', 1, 'C');
+
+
+
+        $fpdf->SetXY('150', '57');
         $fpdf->SetFont('ARIAL', 'B', 13);
         $fpdf->SetTextColor(0,71,171);
         $fpdf->Cell('15', '5', 'Date: ', 0, 0, 'L');
@@ -141,8 +147,8 @@ class Helper {
 
         $fpdf->SetFont('ARIAL', '', 12);
         $fpdf->SetTextColor(0,0,0);
-        $fpdf->Cell('16', '25', '1', 'R',0,'C');
-        if($billInformation->fees_type == 'others')
+
+        /* if($billInformation->fees_type == 'others')
         {
             $otherInformation   =   ($billInformation->other_information) ? ' ('.$billInformation->other_information.')' : NULL;
             $fpdf->Cell('124', '20', $billInformation->remarks.$otherInformation, 0,2,'L');
@@ -151,44 +157,96 @@ class Helper {
         else
         {
             $otherInformation   =   ($billInformation->other_information) ? ' ('.$billInformation->other_information.')' : NULL;
-            $fpdf->Cell('124', '20', ucwords(str_replace('_', ' ', $billInformation->fees_type)).' fees for '.$billInformation->month.' - '.$billInformation->year.$otherInformation, 0,2,'L');
-            $fpdf->Cell('124', '5', 'Payment Mode: '.$billInformation->payment_mode, 0,0,'L');
-        }
-        $fpdf->SetXY('150', '67');
-        $fpdf->Cell('50', '30', $billInformation->total_amount.'/-', 'L',1,'C');
 
+            if ($billInformation->late_fine > 0) {
+                $fpdf->Cell('16', '7', '1', 'R',0,'C');
+                $fpdf->Cell('124', '7', ucwords(str_replace('_', ' ', $billInformation->fees_type)).' fees for '.$billInformation->month.' - '.$billInformation->year.$otherInformation, 0,0,'L');
+                $fpdf->Cell('50', '7', $billInformation->total_amount.'/-', 'L',1,'C');
+
+
+                $fpdf->Cell('16', '11', '2', 'R',0,'C');
+                $fpdf->Cell('124', '11', 'Late fine for '.$billInformation->month.' - '.$billInformation->year, 0,0,'L');
+                $fpdf->Cell('50', '11', $billInformation->late_fine.'/-', 'L',1,'C');
+            } else {
+                $fpdf->Cell('16', '18', '1', 'R',0,'C');
+                $fpdf->Cell('124', '18', ucwords(str_replace('_', ' ', $billInformation->fees_type)).' fees for '.$billInformation->month.' - '.$billInformation->year, 0,0,'L');
+                $fpdf->Cell('50', '18', $billInformation->total_amount.'/-', 'L',1,'C');
+                $fpdf->Cell('16', '2', '', 'R', 0, 'C');
+                $fpdf->Cell('124', '2', $otherInformation, 0,1,"L");
+            }
+            $fpdf->Cell('16', '7', '', 'R',0,'C');
+            $fpdf->Cell('124', '7', 'Payment Mode: '.$billInformation->payment_mode, 'R',0,'L');
+        } */
+        $fpdf->SetXY('10', '72');
+        $fpdf->Cell('16', '20', '', 'R',0,'C');
+        $fpdf->Cell('124', '20', '', 0,0,'L');
+        $fpdf->Cell('50', '20', '', 'L',1,'C');
+
+
+
+        $fpdf->SetXY('10', '72');
+
+        if($billInformation->fees_type == 'others') {
+            $fpdf->Cell('16', '8', '1', 0,0,'C');
+            $fpdf->Cell('124', '8', $billInformation->remarks, 0,0,'L');
+            $fpdf->Cell('50', '8', $billInformation->total_amount.'/-', 0,1,'C');
+        } else {
+            $fpdf->Cell('16', '8', '1', 'R',0,'C');
+            $fpdf->Cell('124', '8', ucwords(str_replace('_', ' ', $billInformation->fees_type)).' fees for '.$billInformation->month.' - '.$billInformation->year, 0,0,'L');
+            $fpdf->Cell('50', '8', $billInformation->total_amount.'/-', 0,1,'C');
+        }
+
+        if($billInformation->other_information) {
+            //$fpdf->SetXY('10', '72');
+            $fpdf->Cell('16', '5', '', 0,0,'C');
+            $fpdf->Cell('124', '5', ucwords($billInformation->other_information), 0,0,'L');
+            $fpdf->Cell('50', '5', '', 0,1,'C');
+        }
+
+        if($billInformation->late_fine > 0) {
+            $fpdf->Cell('16', '6', '2', 'R',0,'C');
+            $fpdf->Cell('124', '6', 'Late fine for '.$billInformation->month.' - '.$billInformation->year, 0,0,'L');
+            $fpdf->Cell('50', '6', $billInformation->late_fine.'/-', 'L',1,'C');
+        }
+
+        $fpdf->SetXY('10', '92');
+        $fpdf->Cell('190', '5', 'Payment Mode: '.$billInformation->payment_mode, 'T',0,'L');
+        $fpdf->SetXY('150', '67');
 
         $fpdf->SetFont('ARIAL', 'B', 12);
         $fpdf->SetTextColor(0,71,171);
         $fpdf->SetXY('10', '97');
-        $fpdf->Cell('140', '15', '', 1,0,'L');
+        $fpdf->Cell('140', '15', '', ($billInformation->payment_mode == 'cheque') ? 1 : 0, 0,'L');
         $fpdf->SetFont('ARIAL', 'B', 15);
         $fpdf->SetTextColor(0,0,0);
-        $fpdf->Cell('50', '15', $billInformation->total_amount.'/-', 1,0,'C');
+        $fpdf->Cell('50', '15', $billInformation->total_bill_amount.'/-', 1,0,'C');
 
-        $fpdf->SetFont('ARIAL', 'B', 12);
-        $fpdf->SetTextColor(0,71,171);
-        $fpdf->SetXY('10', '98');
-        //$fpdf->Ln(2);
-        $fpdf->Cell('30', '5', 'Cheque No. :', 0,0,'L');
-        $fpdf->SetFont('ARIAL', '', 12);
-        $fpdf->SetTextColor(0,0,0);
+        if($billInformation->payment_mode == 'cheque') {
+            $fpdf->SetFont('ARIAL', 'B', 12);
+            $fpdf->SetTextColor(0,71,171);
+            $fpdf->SetXY('10', '98');
+            //$fpdf->Ln(2);
+            $fpdf->Cell('30', '5', 'Cheque No. :', 0,0,'L');
+            $fpdf->SetFont('ARIAL', '', 12);
+            $fpdf->SetTextColor(0,0,0);
 
-        $fpdf->Cell('60', '5', ($billInformation->cheque_no) ?? 'N/A', 'B',0,'L');
-        $fpdf->SetTextColor(0,71,171);
-        $fpdf->SetFont('ARIAL', 'B', 12);
-        $fpdf->Cell('15', '5', 'Date :', 0,0,'L');
+            $fpdf->Cell('60', '5', ($billInformation->cheque_no) ?? 'N/A', 'B',0,'L');
+            $fpdf->SetTextColor(0,71,171);
+            $fpdf->SetFont('ARIAL', 'B', 12);
+            $fpdf->Cell('15', '5', 'Date :', 0,0,'L');
 
-        $fpdf->SetFont('ARIAL', '', 12);
-        $fpdf->SetTextColor(0,0,0);
-        $fpdf->Cell('33', '5', ($billInformation->cheque_issue_date) ? $billInformation->cheque_issue_date->format('d-M-Y') : 'N/A', 'B',1,'L');
-        $fpdf->Ln(2);
-        $fpdf->SetFont('ARIAL', 'B', 12);
-        $fpdf->SetTextColor(0,71,171);
-        $fpdf->Cell('15', '5', 'Bank :',0,0,'L');
-        $fpdf->SetFont('ARIAL', '', 12);
-        $fpdf->SetTextColor(0,0,0);
-        $fpdf->Cell('123', '5', ($billInformation->bank_of_cheque) ?? 'N/A','B',0,'L');
+            $fpdf->SetFont('ARIAL', '', 12);
+            $fpdf->SetTextColor(0,0,0);
+            $fpdf->Cell('33', '5', ($billInformation->cheque_issue_date) ? $billInformation->cheque_issue_date->format('d-M-Y') : 'N/A', 'B',1,'L');
+            $fpdf->Ln(2);
+            $fpdf->SetFont('ARIAL', 'B', 12);
+            $fpdf->SetTextColor(0,71,171);
+            $fpdf->Cell('15', '5', 'Bank :',0,0,'L');
+            $fpdf->SetFont('ARIAL', '', 12);
+            $fpdf->SetTextColor(0,0,0);
+            $fpdf->Cell('123', '5', ($billInformation->bank_of_cheque) ?? 'N/A','B',0,'L');
+        }
+
 
         $fpdf->SetXY('10', '112');
         $fpdf->Cell('140', '16', '', 0,0,'L');
@@ -202,7 +260,7 @@ class Helper {
 
         $fpdf->SetFont('ARIAL', '', 12);
         $fpdf->SetTextColor(0,0,0);
-        $fpdf->Cell('115', '5', self::numberToWord($billInformation->total_amount).' only.', 'B',0,'L');
+        $fpdf->Cell('115', '5', self::numberToWord($billInformation->total_bill_amount).' only.', 'B',0,'L');
         $fpdf->SetFont('ARIAL', 'B', 12);
         $fpdf->SetTextColor(0,71,171);
         $fpdf->Cell('5', '5', ')', 0,0,'R');
@@ -214,6 +272,8 @@ class Helper {
         $paymentMonth   =   $billInformation->billing_date->format('F');
         $filename       =   $billInformation->bill_no.str_replace(' ','', $billInformation->name).$paymentMonth.$paymentYear.'.pdf';
         $storingPath    =   'payslips/'.$paymentYear.'/'.$paymentMonth;
+
+        return $fpdf->Output();
         try {
             Storage::disk('public')->makeDirectory($storingPath);
             $fpdf->Output('storage/'.$storingPath.'/'.$filename, 'F');

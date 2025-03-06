@@ -61,6 +61,30 @@
                 $j('#year-section').removeClass('d-none');
             }
         });
+
+
+        $j('#total-amount').on('input', function() {
+            let totalAmount =   eval($j(this).val());
+
+            if($j('#apply-late-fine').is(':checked')) {
+                totalAmount+= 50;
+                $j('#after-addition-latefine-total-amount').html('Total bill amount: &#8377;'+totalAmount);
+            } else {
+                totalAmount +=0;
+                $j('#after-addition-latefine-total-amount').html('');
+            }
+        });
+
+        $j('#apply-late-fine').on('change', function() {
+            let totalAmount =   eval($j('#total-amount').val());
+            if($j(this).is(':checked')) {
+                totalAmount+= 50;
+                $j('#after-addition-latefine-total-amount').html('Total bill amount: &#8377;'+totalAmount);
+            } else {
+                totalAmount +=0;
+                $j('#after-addition-latefine-total-amount').html('');
+            }
+        });
     });
 </script>
 @endsection

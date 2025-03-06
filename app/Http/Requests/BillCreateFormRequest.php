@@ -33,7 +33,8 @@ class BillCreateFormRequest extends FormRequest
             'total_amount'      =>  'required',
             'cheque_no'         =>  'nullable',
             'cheque_issue_date' =>  'nullable',
-            'bank_of_cheque'    =>  'nullable'
+            'bank_of_cheque'    =>  'nullable',
+            'late_fine'         =>  'nullable'
         ];
     }
 

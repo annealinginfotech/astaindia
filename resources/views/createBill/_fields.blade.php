@@ -1,7 +1,7 @@
 <div class="form-row">
     <div class="form-group col-md-3">
         <label for="">Bill Number</label>
-        <h4><strong>{{ $latestBillNumber }}</strong></h4>
+        <h4><strong>AIB{{ $latestBillNumber }}</strong></h4>
     </div>
     <div class="form-group col-md-6">
         <label for="branch-name">Branch</label><code>*</code>
@@ -99,6 +99,21 @@
         <input type="text" class="form-control" id="other_information" name="other_information" maxlength="60" placeholder="Enter the other information here" value="@isset($billInformation){{ $billInformation->other_information }}@endisset" />
     </div>
 
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="50" name="late_fine" id="apply-late-fine">
+            <label class="form-check-label" for="flexCheckDefault">
+              Apply Late fine: &#8377;50/-
+            </label>
+          </div>
+    </div>
+
+    <div class="form-group col-md-6">
+        <strong id="after-addition-latefine-total-amount"></strong>
+    </div>
 </div>
 
 
