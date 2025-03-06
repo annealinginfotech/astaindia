@@ -223,8 +223,8 @@ class Helper {
         $fpdf->Cell('5', '5', ')', 0,0,'R');
         $fpdf->SetFont('ARIAL', 'BI', 12);
         $fpdf->Cell('50', '5', 'Authorised Signatory', 0, 0, 'C');
-        return $fpdf->Output();
-        exit();
+        /* return $fpdf->Output();
+        exit(); */
         $paymentYear    =   $billInformation->billing_date->format('Y');
         $paymentMonth   =   $billInformation->billing_date->format('F');
         $filename       =   $billInformation->bill_no.str_replace(' ','', $billInformation->name).$paymentMonth.$paymentYear.'.pdf';
