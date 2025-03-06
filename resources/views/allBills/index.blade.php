@@ -55,13 +55,19 @@
                                         </td>
                                         <td>{{ $bill->name }}</td>
                                         <td>{{ $bill->billing_date->format('d M, Y') }}</td>
-                                        <td>&#8377;{{ $bill->total_amount }}</td>
+                                        <td>&#8377;{{ $bill->total_bill_amount }}</td>
                                         <td class="text-nowrap">{{ $bill->generatedBy->name }} <a href="{{ route('users.edit', ['user' => $bill->added_by]) }}" target="_blank"><i class="fa fa-external-link"></i></a></td>
                                         <td class="text-nowrap">
-                                            @if (auth()->user()->can_generate_bill)
+                                            @if (auth()->user()->can_edit_bill)
                                                 <a href="{{ route('billing.edit', ['billing' => $bill->id]) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                                            @endif
+
+
+                                            @if (auth()->user()->can_delete_bill)
                                                 <button class="btn btn-danger btn-sm bill-delete-btn" data-token="{{ csrf_token() }}" data-url="{{ route('billing.destroy', ['billing'   =>  $bill->id]) }}" value="{{ $bill->id }}"><i class="fa fa-trash"></i> Delete</button>
                                             @endif
+
+
                                             @isset ($bill->receipt_file)
                                                 {{-- <a href="{{ route('download-payslip', ['id' =>  $bill->id]) }}" class="btn btn-info btn-sm">
                                                     <i class="fa fa-download"></i> Download
@@ -139,7 +145,7 @@
                         error: function(resp) {
                             Swal.fire({
                                 title: "Opps! Delete Failed.",
-                                text: "Please try again later.",
+                                text: resp.message,
                                 icon: "error"
                             });
                         }

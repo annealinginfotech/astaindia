@@ -62,44 +62,49 @@ class BillingController extends Controller
      */
     public function store( BillCreateFormRequest $request)
     {
-        try {
-            $inputs =   $request->except('_token');
-            $inputs['billing_date']     =   Carbon::parse($request->billing_date);
+        if(auth()->user()->can_generate_bill) {
+            try {
+                $inputs =   $request->except('_token');
+                $inputs['billing_date']     =   Carbon::parse($request->billing_date);
 
-            $lastBillNumber     =   Bill::withTrashed()->latest()->value('bill_no');
-            $latestBillNumber   =   0;
-            $latestBillNumber   =   ($lastBillNumber) ? $lastBillNumber+1 : 1001;
+                $lastBillNumber     =   Bill::withTrashed()->latest()->value('bill_no');
+                $latestBillNumber   =   0;
+                $latestBillNumber   =   ($lastBillNumber) ? $lastBillNumber+1 : 1001;
 
-            $inputs['bill_no']  =   $latestBillNumber;
-            $inputs['added_by'] =   auth()->user()->id;
+                $inputs['bill_no']  =   $latestBillNumber;
+                $inputs['added_by'] =   auth()->user()->id;
 
-            $lateFine                       =   ($request->late_fine) ?? 0;
-            $inputs['late_fine']            =   $lateFine;
-            $inputs['total_bill_amount']    =   $request->total_amount + $lateFine;
+                $lateFine                       =   ($request->late_fine) ?? 0;
+                $inputs['late_fine']            =   $lateFine;
+                $inputs['total_bill_amount']    =   $request->total_amount + $lateFine;
 
-            $billInformation                =   Bill::create($inputs);
+                $billInformation                =   Bill::create($inputs);
 
 
 
-        } catch (\Throwable $th) {
-            Log::channel('billCreation')->debug('Error creating a bill. Cause: '.$th->getMessage());
-            return redirect()->back()->with('internalError', "Unable to create the Bill. Please try again later.");
+            } catch (\Throwable $th) {
+                Log::channel('billCreation')->debug('Error creating a bill. Cause: '.$th->getMessage());
+                return redirect()->back()->with('internalError', "Unable to create the Bill. Please try again later.");
+            }
+
+            switch ($request->action) {
+                case 'save':
+                    Helper::genereatePaySlipPDF($billInformation);
+                    return redirect()->route('billing.index')->with('success', 'Bill created successfully. Bill No. is: <strong>'.$latestBillNumber.'</strong>');
+                    break;
+                case 'save_and_print':
+                    Helper::genereatePaySlipPDF($billInformation);
+                    return redirect()->route('billing.index')->with('success', 'Bill created successfully. Bill No. is: <strong>'.$latestBillNumber.'</strong>');
+                    break;
+
+                default:
+                    # code...
+                    break;
+            }
+        } else {
+            return redirect()->route('billing.index')->with('smartMove', 'Wow!! Smart move, but not this time.');
         }
 
-        switch ($request->action) {
-            case 'save':
-                Helper::genereatePaySlipPDF($billInformation);
-                return redirect()->route('billing.index')->with('success', 'Bill created successfully. Bill No. is: <strong>'.$latestBillNumber.'</strong>');
-                break;
-            case 'save_and_print':
-                Helper::genereatePaySlipPDF($billInformation);
-                return redirect()->route('billing.index')->with('success', 'Bill created successfully. Bill No. is: <strong>'.$latestBillNumber.'</strong>');
-                break;
-
-            default:
-                # code...
-                break;
-        }
 
     }
 
@@ -116,24 +121,29 @@ class BillingController extends Controller
      */
     public function edit(string $id)
     {
-        $this->addBreadcrumb('Dashboard', '/', '');
-        $this->addBreadcrumb('Create new bill', '#', 'active');
+        if(auth()->user()->can_edit_bill)
+        {
+            $this->addBreadcrumb('Dashboard', '/', '');
+            $this->addBreadcrumb('Create new bill', '#', 'active');
 
-        $billInformation    =   Bill::findOrFail($id);
-        $billingYearRange   =   range(2024, 2034);
-        $billingMonthRange  =   array_reduce(range(1,12),function($rslt,$m){ $rslt[$m] = date('F',mktime(0,0,0,$m,10)); return $rslt; });
+            $billInformation    =   Bill::findOrFail($id);
+            $billingYearRange   =   range(2024, 2034);
+            $billingMonthRange  =   array_reduce(range(1,12),function($rslt,$m){ $rslt[$m] = date('F',mktime(0,0,0,$m,10)); return $rslt; });
 
-        $data               =   [
-            'title'             =>  $billInformation->bill_no,
-            'breadCrumbs'       =>  $this->breadcrumbs,
-            'billInformation'   =>  $billInformation,
-            'latestBillNumber'  =>  $billInformation->bill_no,
-            'billingYearRange'  =>  $billingYearRange,
-            'billingMonthRange' =>  $billingMonthRange
+            $data               =   [
+                'title'             =>  $billInformation->bill_no,
+                'breadCrumbs'       =>  $this->breadcrumbs,
+                'billInformation'   =>  $billInformation,
+                'latestBillNumber'  =>  $billInformation->bill_no,
+                'billingYearRange'  =>  $billingYearRange,
+                'billingMonthRange' =>  $billingMonthRange
 
-        ];
+            ];
 
-        return view('createBill.edit')->with($data);
+            return view('createBill.edit')->with($data);
+        } else {
+            return redirect()->route('billing.index')->with('smartMove', 'Wow!! Smart move, but not this time.');
+        }
     }
 
     /**
@@ -141,22 +151,32 @@ class BillingController extends Controller
      */
     public function update(BillCreateFormRequest $request, string $id)
     {
-        $billInformation    =   Bill::findOrFail($id);
+        if(auth()->user()->can_edit_bill) {
+            $billInformation    =   Bill::findOrFail($id);
 
-        try {
-            $billInformation->update($request->except('_token'));
+            try {
 
-            $lateFine                               =   ($request->late_fine) ?? 0;
-            $billInformation['late_fine']           =   $lateFine;
-            $billInformation['total_bill_amount']   =   $request->total_amount + $lateFine;
-            Helper::genereatePaySlipPDF($billInformation);
+                $updateBill                        =   $request->except('_token');
 
-        } catch (\Throwable $th) {
-            Log::channel('billUpdate')->debug('Error while updating Bill record id: '.$id.' Cause: '.$th->getMessage());
-            return redirect()->back()->with('internalError', 'Unable to update this bill. Please try again later.');
+                $lateFine                          =   ($request->late_fine) ?? 0;
+                $updateBill['late_fine']           =   $lateFine;
+                $updateBill['total_bill_amount']   =   $request->total_amount + $lateFine;
+
+
+                $billInformation->update($updateBill);
+
+                //$updatedBill        =   Bill::where('id', $id)->first();
+                Helper::genereatePaySlipPDF($billInformation);
+
+            } catch (\Throwable $th) {
+                Log::channel('billUpdate')->debug('Error while updating Bill record id: '.$id.' Cause: '.$th->getMessage());
+                return redirect()->back()->with('internalError', 'Unable to update this bill. Please try again later.');
+            }
+
+            return redirect()->route('billing.index')->with('success', 'Bill no: <strong>'.$billInformation->bill_no.'</strong> updated successfully.');
+        } else {
+            return redirect()->route('billing.index')->with('smartMove', 'Wow!! Smart move, but not this time.');
         }
-
-        return redirect()->route('billing.index')->with('success', 'Bill no: <strong>'.$billInformation->bill_no.'</strong> updated successfully.');
     }
 
     /**
@@ -164,22 +184,28 @@ class BillingController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            $billInformation    =   Bill::where('id', $id)->first();
-            $deleteID           =   $billInformation->bill_no;
-            $billInformation->delete();
+        if(auth()->user()->can_delete_bill) {
+            try {
+                $billInformation    =   Bill::where('id', $id)->first();
+                $deleteID           =   $billInformation->bill_no;
+                $billInformation->delete();
 
-        } catch (\Throwable $th) {
-            Log::channel('billDelete')->debug('Error while deleting bill '.$deleteID.' Cause: '.$th->getMessage());
+            } catch (\Throwable $th) {
+                Log::channel('billDelete')->debug('Error while deleting bill '.$deleteID.' Cause: '.$th->getMessage());
+                return response()->json([
+                    'message'    => 'Bill No: '.$deleteID.' unable to delete.'
+                ],500);
+            }
+
+
             return response()->json([
-                'message'    => 'Bill No: '.$deleteID.' unable to delete.'
-            ],500);
+                'message'    => 'Bill No: '.$deleteID.' is deleted.'
+            ],200);
+        } else {
+            return response()->json([
+                'message'   =>  'Wow! Smart move. But not this time'
+            ]);
         }
-
-
-        return response()->json([
-            'message'    => 'Bill No: '.$deleteID.' is deleted.'
-        ],200);
     }
 
     public function downloadPayslip($id)

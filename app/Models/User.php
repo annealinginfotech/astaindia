@@ -22,7 +22,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'can_generate_bill'
+        'branch_name',
+        'can_generate_bill',
+        'can_edit_bill',
+        'can_delete_bill'
     ];
 
     /**

@@ -53,7 +53,8 @@ class UserController extends Controller
         $this->validate($request, [
             'name'      =>  'required',
             'email'     =>  'required|string|email|max:255|unique:users,email',
-            'password'  =>  'required|min:8'
+            'password'  =>  'required|min:8',
+            'branch_name'   =>  'required'
         ]);
 
         $inputFields                =   $request->except('_token');
@@ -109,7 +110,8 @@ class UserController extends Controller
         $this->validate($request, [
             'name'      =>  'required',
             'email'     =>  'required|string|email|max:255|unique:users,email,'.$id,
-            'password'  =>  'nullable|min:8'
+            'password'  =>  'nullable|min:8',
+            'branch_name'   =>  'required'
         ]);
 
         $user   =   User::where('id', '=', $id)->firstOrFail();
@@ -122,6 +124,10 @@ class UserController extends Controller
             }else{
                 $updatingFields = Arr::except($updatingFields,array('password'));
             }
+
+            $updatingFields['can_generate_bill']    =   ($request->can_generate_bill) ?? 0;
+            $updatingFields['can_edit_bill']        =   ($request->can_edit_bill) ?? 0;
+            $updatingFields['can_delete_bill']      =   ($request->can_delete_bill) ?? 0;
 
             DB::transaction(function() use($user, $updatingFields) {
                 $user->update($updatingFields);

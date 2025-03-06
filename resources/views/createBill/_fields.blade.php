@@ -5,7 +5,21 @@
     </div>
     <div class="form-group col-md-6">
         <label for="branch-name">Branch</label><code>*</code>
-        <input type="text" id="branch-name" name="branch" value="@isset($billInformation){{ $billInformation->branch }}@endisset" placeholder="Enter the branch name" class="form-control @error('branch') is-invalid @enderror" />
+        @php
+            $branchName =   "";
+            if(isset($billInformation)) {
+                $branchName =   $billInformation->branch;
+            } else {
+                $branchName =   auth()->user()->branch_name;
+            }
+
+            if(auth()->user()->email == 'info@astaindia.org') {
+                $branchEdit =   "";
+            } else {
+                $branchEdit =   "readonly";
+            }
+        @endphp
+        <input type="text" id="branch-name" name="branch" value="{{$branchName}}" placeholder="Enter the branch name" class="form-control @error('branch') is-invalid @enderror" {{$branchEdit}} />
         @error('branch')
             <span id="branch-name-error" class="error invalid-feedback">{{ $message }}</span>
         @enderror

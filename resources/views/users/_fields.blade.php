@@ -1,35 +1,72 @@
 <div class="form-row">
     <div class="form-group col-md-12">
-        <label for="name">Name</label><code>*</code>
-        <input type="text" id="name" name="name" value="@isset($user){{$user->name}}@endisset" placeholder="Full name" class="form-control @error('name') is-invalid @enderror" autocomplete="off" required/>
+        <label for="name">Name</label> <code>*</code>
+        <input type="text" id="name" name="name"
+            value="@isset($user){{ $user->name }}@endisset" placeholder="Full name"
+            class="form-control @error('name') is-invalid @enderror" autocomplete="off" required />
         @error('name')
             <span id="name-error" class="error invalid-feedback">{{ $message }}</span>
         @enderror
     </div>
     <div class="form-group col-md-12">
-        <label for="email">Email</label><code>*</code>
-        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="@isset($user){{$user->email}}@endisset" placeholder="john@example.com" autocomplete="off" required/>
+        <label for="email">Email</label> <code>*</code>
+        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
+            value="@isset($user){{ $user->email }}@endisset" placeholder="john@example.com"
+            autocomplete="off" required />
         @error('email')
             <span id="name-error" class="error invalid-feedback">{{ $message }}</span>
         @enderror
     </div>
     <div class="form-group col-md-12">
-        <label for="password">Password</label>@unless(isset($user))<code>*</code>@endunless<small class="float-right">Min. 8 characters</small>
-        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="" autocomplete="off" {{(isset($user)) ? '' : 'required'}}/>
+        <label for="password">Password</label>
+        @unless (isset($user))
+            <code> *</code>
+        @endunless
+        <small class="float-right">Min. 8 characters</small>
+        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password"
+            value="" autocomplete="off" {{ isset($user) ? '' : 'required' }} />
         @error('password')
             <span id="name-error" class="error invalid-feedback">{{ $message }}</span>
         @enderror
     </div>
     <div class="form-group col-md-12">
+        <label for="branch_name">Branch name</label> <code>*</code>
+        <input type="text" class="form-control @error('branch_name') is-invalid @enderror" name="branch_name"
+            value="@isset($user){{ $user->branch_name }}@endisset" autocomplete="off" {{ isset($user) ? '' : 'required' }} />
+        @error('branch_name')
+            <span id="name-error" class="error invalid-feedback">{{ $message }}</span>
+        @enderror
+    </div>
+
+
+    <div class="form-group col-md-12">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="can_generate_bill" id="can_generate_bill" value="1" @isset($user){{$user->can_generate_bill == '1' ? 'checked' : ''}}@endisset>
+            <label class="form-check-label" for="can_generate_bill">Create bill</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="can_edit_bill" name="can_edit_bill" value="1" @isset($user){{$user->can_edit_bill == '1' ? 'checked' : ''}}@endisset>
+            <label class="form-check-label" for="can_edit_bill">Edit bill</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="can_delete_bill" name="can_delete_bill" value="1" @isset($user){{$user->can_delete_bill == '1' ? 'checked' : ''}}@endisset>
+            <label class="form-check-label" for="can_delete_bill">Delete bill</label>
+        </div>
+    </div>
+    {{-- <div class="form-group col-md-12">
         <label for="password">Authorize to Create/Edit/Delete Bill</label><code>*</code>
         <select class="form-control" name="can_generate_bill">
-            <option value="0" @isset($user){{($user->can_generate_bill == '0') ? 'selected' : ''}}@endisset>No</option>
-            <option value="1" @isset($user){{($user->can_generate_bill == '1') ? 'selected' : ''}}@endisset>Yes</option>
+            <option value="0"
+                @isset($user){{ $user->can_generate_bill == '0' ? 'selected' : '' }}@endisset>No
+            </option>
+            <option value="1"
+                @isset($user){{ $user->can_generate_bill == '1' ? 'selected' : '' }}@endisset>
+                Yes</option>
         </select>
         @error('password')
             <span id="name-error" class="error invalid-feedback">{{ $message }}</span>
         @enderror
-    </div>
+    </div> --}}
 </div>
 
 <div class="form-row">
