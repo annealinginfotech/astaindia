@@ -44,7 +44,7 @@ class BillingController extends Controller
         $lastBillNumber     =   Bill::withTrashed()->latest()->value('bill_no');
         $latestBillNumber   =   0;
         $latestBillNumber   =   ($lastBillNumber) ? $lastBillNumber+1 : 1001;
-        $billingYearRange   =   range(date('Y'), 2034);
+        $billingYearRange   =   range(2024, 2034);
         $billingMonthRange  =   array_reduce(range(1,12),function($rslt,$m){ $rslt[$m] = date('F',mktime(0,0,0,$m,10)); return $rslt; });
         $data   =   [
             'title'             =>  'Create new bill',
@@ -120,7 +120,7 @@ class BillingController extends Controller
         $this->addBreadcrumb('Create new bill', '#', 'active');
 
         $billInformation    =   Bill::findOrFail($id);
-        $billingYearRange   =   range(date('Y'), 2034);
+        $billingYearRange   =   range(2024, 2034);
         $billingMonthRange  =   array_reduce(range(1,12),function($rslt,$m){ $rslt[$m] = date('F',mktime(0,0,0,$m,10)); return $rslt; });
 
         $data               =   [
@@ -145,6 +145,10 @@ class BillingController extends Controller
 
         try {
             $billInformation->update($request->except('_token'));
+
+            $lateFine                               =   ($request->late_fine) ?? 0;
+            $billInformation['late_fine']           =   $lateFine;
+            $billInformation['total_bill_amount']   =   $request->total_amount + $lateFine;
             Helper::genereatePaySlipPDF($billInformation);
 
         } catch (\Throwable $th) {

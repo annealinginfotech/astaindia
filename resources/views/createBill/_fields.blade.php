@@ -88,6 +88,7 @@
             <option value="" selected disabled>-- Select payment mode --</option>
             <option value="cash" @isset($billInformation) {{ ($billInformation->payment_mode == 'cash') ? 'selected' : '' }} @endisset>Cash</option>
             <option value="online" @isset($billInformation) {{ ($billInformation->payment_mode == 'online') ? 'selected' : '' }} @endisset>Online/UPI</option>
+            <option value="cheque" @isset($billInformation) {{ ($billInformation->payment_mode == 'cheque') ? 'selected' : '' }} @endisset>Cheque</option>
         </select>
         @error('payment_mode')
             <span id="payment-mode-error" class="error invalid-feedback">{{ $message }}</span>
@@ -104,7 +105,7 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="50" name="late_fine" id="apply-late-fine">
+            <input class="form-check-input" type="checkbox" @isset($billInformation){{($billInformation->late_fine > 0) ? "checked" : ""}}@endisset value="50" name="late_fine" id="apply-late-fine">
             <label class="form-check-label" for="flexCheckDefault">
               Apply Late fine: &#8377;50/-
             </label>
@@ -112,7 +113,11 @@
     </div>
 
     <div class="form-group col-md-6">
-        <strong id="after-addition-latefine-total-amount"></strong>
+        <strong id="after-addition-latefine-total-amount">
+            @if (isset($billInformation) && $billInformation->late_fine > 0)
+                Total bill amount &#8377; {{$billInformation->total_bill_amount}}
+            @endif
+        </strong>
     </div>
 </div>
 
