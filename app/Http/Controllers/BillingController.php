@@ -23,7 +23,9 @@ class BillingController extends Controller
     {
         $this->addBreadcrumb('Dashboard', '/', '');
         $this->addBreadcrumb('All bill', '#', 'active');
-        $bills  =   Bill::with('generatedBy')->orderBy('bill_no', 'DESC')->get();
+
+        $bills  =   Bill::with('generatedBy')->when(auth()->user()->email != 'info@astaindia.org', fn($q) => $q->where('added_by', auth()->user()->id))
+                        ->orderBy('bill_no', 'DESC')->get();
         $data   =   [
             'title'     =>  'All bills',
             'breadCrumbs'   =>  $this->breadcrumbs,
