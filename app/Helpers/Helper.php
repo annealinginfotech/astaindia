@@ -272,8 +272,6 @@ class Helper {
         $paymentMonth   =   $billInformation->billing_date->format('F');
         $filename       =   $billInformation->bill_no.str_replace(' ','', $billInformation->name).$paymentMonth.$paymentYear.'.pdf';
         $storingPath    =   'payslips/'.$paymentYear.'/'.$paymentMonth;
-
-        return $fpdf->Output();
         try {
             Storage::disk('public')->makeDirectory($storingPath);
             $fpdf->Output('storage/'.$storingPath.'/'.$filename, 'F');
