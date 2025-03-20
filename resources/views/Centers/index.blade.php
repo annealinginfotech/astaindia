@@ -18,9 +18,9 @@
                     </h2>
                 </div>
                 <!-- Page title actions -->
-                {{-- <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="{{ route('zone.create') }}" class="btn btn-success d-none d-sm-inline-block">
+                        <a href="{{ route('zones.centers.create') }}" class="btn btn-success d-none d-sm-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
@@ -30,7 +30,7 @@
                             </svg>
                             Add new
                         </a>
-                        <a href="{{ route('zone.create') }}" class="btn btn-primary d-sm-none btn-icon" aria-label="create-zone">
+                        <a href="{{ route('zones.centers.create') }}" class="btn btn-primary d-sm-none btn-icon" aria-label="create-zone">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -40,7 +40,7 @@
                             </svg>
                         </a>
                     </div>
-                </div> --}}
+                </div>
                 @include('includes.alerts')
             </div>
         </div>
@@ -54,24 +54,38 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Code</th>
                                 <th>Name</th>
-                                <th>Level</th>
+                                <th>Type</th>
+                                <th>Parent</th>
+                                <th>Phone</th>
                                 <th>Status</th>
                                 <th>Created on</th>
-                                {{-- <th>Action</th> --}}
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($zones as $item)
-                                <tr>
+                            @foreach ($centers as $item)
+                                <tr class="text-nowrap">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->zone_name }}</td>
-                                    <td><span class="badge bg-{{($item->zone_type == 'headquarters') ? 'red-lt' : 'green-lt'}}">{{ ucfirst($item->zone_type) }}</span></td>
+                                    <td>{{ $item->code }}</td>
+                                    <td>{{$item->name}}</td>
+                                    <td><span class="badge bg-{{($item->type == 'headquarters') ? 'red-lt' : 'green-lt'}}">{{ ucfirst($item->type) }}</span></td>
+                                    <td>
+                                        <span class="badge bg-{{($item->parentalControl()->zone_type == 'headquarters') ? 'red-lt' : 'green-lt'}}">
+                                            @if (in_array($item->type, ['headquarters', 'admin']))
+                                                {{ucfirst($item->parentalControl()->zone_name)}}
+                                            @else
+                                                {{ucfirst($item->parentalControl()->name)}}
+                                            @endif
+                                        </span>
+                                    </td>
+                                    <td><a href="tel:{{$item->phone}}">{{$item->phone}}</a></td>
                                     <td><span class="status {{$item->getStatus()['color']}}">{{$item->getStatus()['status']}}</span></td>
                                     <td>{{ $item->created_at->format('d-M-y') }}</td>
-                                    {{-- <td>
+                                    <td>
                                         <a class="btn btn-warning btn-sm btn-pill"
-                                            href="{{ route('base-course.edit', encrypt($item->id)) }}">
+                                            href="{{ route('zones.centers.edit', encrypt($item->id)) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round"
@@ -99,7 +113,7 @@
                                             </svg>
                                             Danger
                                         </button>
-                                    </td> --}}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -126,7 +140,7 @@
                         <path d="M12 17h.01" />
                     </svg>
                     <h3>Are you sure?</h3>
-                    <div class="text-muted">Do you really want to remove this Zone? What you've done cannot be undone.
+                    <div class="text-muted">Do you really want to remove this Center? What you've done cannot be undone.
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -177,7 +191,7 @@
 
         $("#example").on('click', '.delete-confirm', function() {
             var deleteID = $(this).val();
-            let url = "{{ route('base-course.destroy', ':id') }}";
+            let url = "{{ route('zones.centers.destroy', ':id') }}";
             url = url.replace(':id', deleteID);
             $('#confirmationForm').attr('action', url);
             $('#deleteConfirmationBox').modal('show');

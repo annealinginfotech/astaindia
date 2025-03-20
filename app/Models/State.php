@@ -11,4 +11,8 @@ class State extends Model
     use SoftDeletes, HasFactory;
 
     protected $fillable =   ['state', 'status'];
+
+    public function scopeActive($query): void {
+        $query->where('status', 1);
+    }
 }

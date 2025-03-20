@@ -17,6 +17,10 @@ class Zone extends Model
         $query->where('status', ZoneStatus::ACTIVE);
     }
 
+    public function parent() {
+        return $this->belongsTo(Zone::class, 'parent_zone', 'id');
+    }
+
     public function getStatus(){
         switch ($this->status) {
             case ZoneStatus::ACTIVE:

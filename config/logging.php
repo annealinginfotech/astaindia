@@ -203,6 +203,18 @@ return [
             'driver'    =>  'single',
             'path'      =>  storage_path('logs/zone/create/operation.log'),
             'level'     =>  'info'
+        ],
+
+        'centerCreateLog'         =>  [
+            'driver'    =>  'single',
+            'path'      =>  storage_path('logs/center/create/operation.log'),
+            'level'     =>  'info'
+        ],
+
+        'centerEditLog'         =>  [
+            'driver'    =>  'single',
+            'path'      =>  storage_path('logs/center/edit/operation.log'),
+            'level'     =>  'info'
         ]
     ],
 

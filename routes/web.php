@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Zone\ZoneController;
+use App\Http\Controllers\Center\CenterController;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Courses\BaseCourseController;
@@ -27,6 +28,16 @@ Route::get('/', function () {
     return view('index');
 })->middleware('guest')->name('login');
 
+Route::get('/test', function() {
+    $zone               =   \App\Models\Zone::with('parent')->active()->where('zone_type', 'headquarters')->first();
+            $insertPayload      =   [
+                'center_id'             =>  '1',
+                'state_id'              =>  29,
+                'control_type'          =>  $zone->parent->zone_type,
+                'control_center_id'     =>  1
+            ];
+            return $insertPayload;
+});
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest')->name('login-operation');
 
 Route::middleware(['auth'])->group(function() {
@@ -49,7 +60,16 @@ Route::middleware(['auth'])->group(function() {
     /* ======== Fees strucure routing ========== */
     Route::resource('fees-structure', FeesStructureController::class);
 
-    /* ============ Zone routine =============== */
-    Route::resource('zone', ZoneController::class);
-    Route::get('/zone/get-parent-zone/{id}', [ZoneController::class, 'getParentZone'])->name('zone.get-parent');
+    /* ============ Zone routing =============== */
+
+    /* ============ Center routing ============ */
+    Route::group([], function() {
+        Route::prefix('zones')->name('zones.')->group(function() {
+            Route::resource('centers', CenterController::class);
+        });
+        Route::get('/get-parent-zone/{id}/{state?}', [ZoneController::class, 'getParentZone'])->name('zones.get-parent');
+        Route::resource('zones', ZoneController::class);
+
+
+    });
 });

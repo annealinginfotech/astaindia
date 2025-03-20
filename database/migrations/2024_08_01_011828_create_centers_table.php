@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('zones', function (Blueprint $table) {
+        Schema::create('centers', function (Blueprint $table) {
             $table->id();
-            $table->text('zone_name');
-            $table->enum('zone_type', ['headquarters', 'admin', 'state', 'district', 'branch', 'unit' ]);
-            $table->bigInteger('parent_zone');
+            $table->string('code')->unique();
+            $table->string('name');
+            $table->enum('type', ['headquarters', 'admin', 'state', 'district', 'branch', 'unit' ]);
+            $table->unsignedBigInteger('state_id');
             $table->longText('address');
-            $table->string('phone_no');
+            $table->string('phone');
+            $table->string('email');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
         });
     }
 
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('zones');
+        Schema::dropIfExists('centers');
     }
 };

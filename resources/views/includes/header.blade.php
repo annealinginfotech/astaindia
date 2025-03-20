@@ -89,13 +89,13 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
-                                    <a class="dropdown-item {{(request()->is('zone*')) ? 'active' : ''}}" href="{{route('zone.index')}}">
+                                    <a class="dropdown-item {{(Route::current()->getName() == 'zones.index') ? 'active' : ''}}" href="{{route('zones.index')}}">
                                         <span style="margin-right: 10px;"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-hierarchy"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M19 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M6.5 17.5l5.5 -4.5l5.5 4.5" /><path d="M12 7l0 6" /></svg></span>
                                         <span>List of zones</span>
                                     </a>
-                                    <a class="dropdown-item {{(request()->is('states*')) ? 'active' : ''}}" href="#">
+                                    <a class="dropdown-item {{(in_array(Route::current()->getName(), ['zones.centers.index', 'zones.centers.create'])) ? 'active' : ''}}" href="{{route('zones.centers.index')}}">
                                         <span style="margin-right: 10px;"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pennant"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 21l4 0" /><path d="M10 21l0 -18" /><path d="M10 4l9 4l-9 4" /></svg></span>
-                                        <span>Inaugurate</span>
+                                        <span>Centers</span>
                                     </a>
                                 </div>
                             </div>

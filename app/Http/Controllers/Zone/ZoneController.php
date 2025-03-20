@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Zone;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ZoneRequest;
+use App\Enums\ZoneType;
 use App\Models\Zone;
+use App\Models\State;
+use App\Models\Center;
 use Log;
 
 class ZoneController extends Controller
@@ -85,8 +88,17 @@ class ZoneController extends Controller
         //
     }
 
-    public function getParentZone($type) {
-        $zone   =   Zone::active()->where('zone_type', $type)->get(['id', 'zone_name', 'zone_type', 'parent_zone']);
-        return response()->json(['zones'    =>  $zone]);
+    public function getParentZone($type, $state = null) {
+        $zone   =   Zone::with('parent:id,zone_name,zone_type')->active()->where('zone_type', $type)->first();
+        if($zone->parent->zone_type == ZoneType::STATE) {
+            $states                 =   Center::active()->where('type', ZoneType::STATE)->get(['id', 'name AS zone_name']);
+            return response()->json(['zones'    =>  $states]);
+        } else if($zone->parent->zone_type == ZoneType::DISTRICT) {
+            $availableDistrict  =   Center::active()->where('state_id', $state)->where('type', ZoneType::DISTRICT)->get(['id', 'code', 'name AS zone_name']);
+            return response()->json(['zones'    =>  $availableDistrict]);
+        } /* else if($zone->parent->zone_type  ==  ZoneType::BRANCH) {
+            $availableBranch    =
+        } */
+        return response()->json(['zones'    =>  $zone->parent]);
     }
 }
