@@ -50,7 +50,7 @@
         <div class="container-xl">
             <div class="row">
                 <div class="col-md-12 table-responsive">
-                    <table id="example" class="table table-striped w-100">
+                    <table id="example" class="table w-100">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -66,7 +66,7 @@
                         </thead>
                         <tbody>
                             @foreach ($centers as $item)
-                                <tr class="text-nowrap">
+                                <tr class="text-nowrap" style="{{$item->zoneColorPanel()}}">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->code }}</td>
                                     <td>{{$item->name}}</td>

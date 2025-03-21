@@ -33,4 +33,25 @@ class Zone extends Model
                 break;
         }
     }
+
+    public function zoneColorPanel() {
+        switch ($this->zone_type) {
+            case ZoneType::HEADQUARTERS:
+                return 'background-color:rgb(242, 212, 212); color:black';
+                break;
+            case ZoneType::ADMIN:
+                return 'background-color:rgb(212, 242, 216); color:black';
+            case ZoneType::STATE:
+                return 'background-color:rgb(212, 218, 242); color:black';
+            case ZoneType::DISTRICT:
+                return 'background-color:rgb(240, 242, 212); color:black';
+            case ZoneType::BRANCH:
+                return 'background-color:rgb(212, 240, 242); color:black';
+            case ZoneType::UNIT:
+                return 'background-color:rgb(255, 255, 255); color:black';
+            default:
+                return 'background-color:rgb(231, 162, 232); color:black';
+                break;
+        }
+    }
 }

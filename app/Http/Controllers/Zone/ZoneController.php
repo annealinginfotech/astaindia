@@ -96,9 +96,10 @@ class ZoneController extends Controller
         } else if($zone->parent->zone_type == ZoneType::DISTRICT) {
             $availableDistrict  =   Center::active()->where('state_id', $state)->where('type', ZoneType::DISTRICT)->get(['id', 'code', 'name AS zone_name']);
             return response()->json(['zones'    =>  $availableDistrict]);
-        } /* else if($zone->parent->zone_type  ==  ZoneType::BRANCH) {
-            $availableBranch    =
-        } */
+        } else if($zone->parent->zone_type  ==  ZoneType::BRANCH) {
+            $availableBranch    =   Center::active()->where('state_id', $state)->where('type', ZoneType::BRANCH)->get(['id', 'code', 'name AS zone_name']);
+            return response()->json(['zones'    =>  $availableBranch]);
+        }
         return response()->json(['zones'    =>  $zone->parent]);
     }
 }

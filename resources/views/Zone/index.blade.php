@@ -50,7 +50,7 @@
         <div class="container-xl">
             <div class="row">
                 <div class="col-md-12 table-responsive">
-                    <table id="example" class="table table-striped w-100">
+                    <table id="example" class="table w-100">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -63,7 +63,7 @@
                         </thead>
                         <tbody>
                             @foreach ($zones as $item)
-                                <tr>
+                                <tr style="{{$item->zoneColorPanel()}}">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->zone_name }}</td>
                                     <td><span class="badge bg-{{($item->zone_type == 'headquarters') ? 'red-lt' : 'green-lt'}}">{{ ucfirst($item->zone_type) }}</span></td>
