@@ -47,11 +47,12 @@ class MainCourseController extends Controller
             'base_course_id'    =>  'required|exists:base_courses,id',
             'name'              =>  'required',
             'course_code'       =>  'required|unique:main_courses,course_code',
+            'academy_name'      =>  'required',
             'min_qualification' =>  'required'
         ]);
 
         try {
-            MainCourse::create($request->only(['base_course_id', 'name', 'course_code', 'min_qualification']));
+            MainCourse::create($request->only(['base_course_id', 'academy_name', 'name', 'course_code', 'min_qualification']));
         } catch (\Throwable $th) {
             Log::channel('mainCourseCreateLog')->info('Error in creation Main course. Reason: '.$th);
             return $th;
@@ -95,12 +96,13 @@ class MainCourseController extends Controller
         $this->validate($request, [
             'base_course_id'    =>  'required|exists:base_courses,id',
             'name'              =>  'required',
+            'academy_name'      =>  'required',
             'course_code'       =>  'required|unique:main_courses,course_code,'.$updateID,
             'min_qualification' =>  'required'
         ]);
 
         try {
-            MainCourse::findOrFail($updateID)->update($request->only(['base_course_id', 'name', 'course_code', 'min_qualification']));
+            MainCourse::findOrFail($updateID)->update($request->only(['base_course_id', 'academy_name', 'name', 'course_code', 'min_qualification']));
         } catch (\Throwable $th) {
             Log::channel('mainCourseUpdateLog')->info('Error in creation Main course. Reason: '.$th);
             return $th;

@@ -20,6 +20,11 @@
         @error('course_code')<div class="invalid-feedback">{{$message}}</div>@enderror
     </div>
     <div class="col-md-6 mb-3">
+        <label class="form-label">Academy name</label>
+        <input type="text" class="form-control @error('academy_name') is-invalid @enderror" name="academy_name" placeholder="e.g ABCD" value="{{ isset($mainCourse) ? $mainCourse->academy_name : '' }}" required>
+        @error('academy_name')<div class="invalid-feedback">{{$message}}</div>@enderror
+    </div>
+    <div class="col-md-6 mb-3">
         <label class="form-label">Min. Qualification</label>
         <input type="text" class="form-control @error('min_qualification') is-invalid @enderror" name="min_qualification" placeholder="e.g Scouts and guides" value="{{ isset($mainCourse) ? $mainCourse->min_qualification : '' }}" required>
         @error('min_qualification')<div class="invalid-feedback">{{$message}}</div>@enderror

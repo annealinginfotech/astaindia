@@ -10,7 +10,7 @@ class MainCourse extends Model
 {
     use SoftDeletes, HasFactory;
 
-    protected $fillable =   ['course_code', 'base_course_id', 'name', 'min_qualification', 'status'];
+    protected $fillable =   ['course_code', 'base_course_id', 'academy_name', 'name', 'min_qualification', 'status'];
 
     protected $dates    =   ['created_at'];
 

@@ -55,8 +55,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Base Course</th>
-                                <th>Name</th>
                                 <th>Code</th>
+                                <th>Name</th>
                                 <th>Created on</th>
                                 <th>Action</th>
                             </tr>
