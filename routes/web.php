@@ -69,7 +69,7 @@ Route::middleware(['auth'])->group(function() {
         });
         Route::get('/get-parent-zone/{id}/{state?}', [ZoneController::class, 'getParentZone'])->name('zones.get-parent');
         Route::resource('zones', ZoneController::class);
-
+        Route::get('get-unit/{state}/{parent}', [ZoneController::class, 'getUnit'])->name('zones.get-unit');
 
     });
 });

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Fees;
 
-use App\Http\Controllers\Controller;
-use App\Models\FeesStructure;
-use Illuminate\Http\Request;
+use DB;
+use Log;
+use Carbon\Carbon;
+use App\Models\Center;
+use App\Enums\FeesType;
 use App\Models\BaseCourse;
 use App\Models\MainCourse;
-use App\Enums\FeesType;
-use Carbon\Carbon;
-use Log;
-use DB;
+use Illuminate\Http\Request;
+use App\Models\FeesStructure;
+use App\Http\Controllers\Controller;
 
 class FeesStructureController extends Controller
 {
@@ -34,7 +35,8 @@ class FeesStructureController extends Controller
     {
         $data   =   [
             'title'             =>  'New Fees structure',
-            'baseCourses'       =>  BaseCourse::all()
+            'baseCourses'       =>  BaseCourse::all(),
+            'units'             =>  Center::where('type', 'unit')->active()->get()
         ];
 
         return view('Fees.Structure.create')->with($data);
@@ -47,6 +49,7 @@ class FeesStructureController extends Controller
     {
         $this->validate($request, [
             'main_course_id'        =>  'required|exists:main_courses,id',
+            'center_id'             =>  'required|exists:centers,id',
             'admission_fees'        =>  'required',
             'monthly_fees'          =>  'required',
             'exam_fees'             =>  'required'
@@ -55,6 +58,7 @@ class FeesStructureController extends Controller
 
         $admissionPayload   =   [
             'main_course_id'    =>  $request->main_course_id,
+            'center_id'         =>  $request->center_id,
             'fees_type'         =>  FeesType::ADMISSION,
             'amount'            =>  (double)$request->admission_fees,
             'created_at'        =>  Carbon::now(),
@@ -63,6 +67,7 @@ class FeesStructureController extends Controller
         array_push($inputPayload, $admissionPayload);
         $monthlyPayload   =   [
             'main_course_id'    =>  $request->main_course_id,
+            'center_id'         =>  $request->center_id,
             'fees_type'         =>  FeesType::MONTHLY,
             'amount'            =>  (double)$request->monthly_fees,
             'created_at'        =>  Carbon::now(),
@@ -71,6 +76,7 @@ class FeesStructureController extends Controller
         array_push($inputPayload, $monthlyPayload);
         $examPayload   =   [
             'main_course_id'    =>  $request->main_course_id,
+            'center_id'         =>  $request->center_id,
             'fees_type'         =>  FeesType::EXAM,
             'amount'            =>  (double)$request->exam_fees,
             'created_at'        =>  Carbon::now(),
@@ -109,6 +115,7 @@ class FeesStructureController extends Controller
                                         'base_course_name'      =>  $feesDetailsRaw->first()?->mainCourse->baseCourse->name,
                                         'main_course_id'        =>  $feesDetailsRaw->first()->main_course_id,
                                         'main_course_name'      =>  $feesDetailsRaw->first()->mainCourse->name,
+                                        'center_id'             =>  $feesDetailsRaw->first()->center_id,
                                         'admission_fees'        =>  $feesDetailsRaw->where('fees_type', FeesType::ADMISSION)->value('amount'),
                                         'monthly_fees'          =>  $feesDetailsRaw->where('fees_type', FeesType::MONTHLY)->value('amount'),
                                         'exam_fees'             =>  $feesDetailsRaw->where('fees_type', FeesType::EXAM)->value('amount'),
@@ -116,7 +123,8 @@ class FeesStructureController extends Controller
 
         $data               =   [
                                     'title'         =>  'Edit Fees structure',
-                                    'feesDetails'   =>  $feesDetails
+                                    'feesDetails'   =>  $feesDetails,
+                                    'units'         =>  Center::where('type', 'unit')->active()->get()
                                 ];
 
         return view('Fees.Structure.edit')->with($data);
@@ -128,6 +136,7 @@ class FeesStructureController extends Controller
     public function update(Request $request, string $id)
     {
         $this->validate($request, [
+            'center_id'             =>  'required|exists:centers,id',
             'admission_fees'        =>  'required',
             'monthly_fees'          =>  'required',
             'exam_fees'             =>  'required'
@@ -136,9 +145,9 @@ class FeesStructureController extends Controller
 
         try {
             DB::beginTransaction();
-            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::ADMISSION])->update(['amount' =>  $request->admission_fees]);
-            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::MONTHLY])->update(['amount' =>  $request->monthly_fees]);
-            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::EXAM])->update(['amount' =>  $request->exam_fees]);
+            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::ADMISSION])->update(['amount' =>  $request->admission_fees, 'center_id'  =>  $request->center_id]);
+            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::MONTHLY])->update(['amount' =>  $request->monthly_fees, 'center_id'  =>  $request->center_id]);
+            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::EXAM])->update(['amount' =>  $request->exam_fees, 'center_id'    =>  $request->center_id]);
             DB::commit();
         } catch (\Throwable $th) {
             Log::channel('feesStructureUpdateLog')->info('Error while updating fees strucure. Reason'.$th);

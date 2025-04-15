@@ -56,6 +56,7 @@
                                 <th>#</th>
                                 <th>Base Course</th>
                                 <th>Main Course</th>
+                                <th class="text-center">Unit</th>
                                 <th class="text-center">Monthly Fees</th>
                                 <th>Created on</th>
                                 <th>Action</th>
@@ -67,6 +68,7 @@
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$item->mainCourse->baseCourse->name}}</td>
                                     <td>{{$item->mainCourse->name}}</td>
+                                    <td class="text-center">{{$item->center_name}}</td>
                                     <td class="text-center">&#8377;{{$item->amount}}</td>
                                     <td>{{$item->created_at->format('d-M-y @ h:i:s a')}}</td>
                                     <td>

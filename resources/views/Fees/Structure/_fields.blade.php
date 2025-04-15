@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
         <label class="form-label required">{{(!isset($feesDetails)) ? 'Select' : '' }} Base course</label>
         <select name="base_course_id" id="base_course" class="form-select @error('base_course_id') is-invalid @enderror" {{(!isset($feesDetails)) ? 'required' : '' }}>
             <option value="" selected disabled>{{(isset($feesDetails)) ? $feesDetails['base_course_name'] : '-- Choose Base course --' }}</option>
@@ -9,17 +9,34 @@
                 @endforeach
             @endif
         </select>
-        @isset($feesDetails)<small class="form-hint">You can not edit the Base course.</small>@endisset
+        @isset($feesDetails)<small class="text-danger">You can not edit the Base course.</small>@endisset
         @error('base_course_id')<div class="invalid-feedback">{{$message}}</div>@enderror
     </div>
-    <div class="col-md-6 mb-3">
+
+    <div class="col-md-4 mb-3">
         <label class="form-label required">{{(!isset($feesDetails)) ? 'Select' : '' }} Main course <div class="spinner-border spinner-border-sm text-muted d-none" id="fetchingMainCourseLoader" role="status"></div></label>
         <select name="main_course_id" id="main_course" class="form-select @error('main_course_id') is-invalid @enderror" {{(!isset($feesDetails)) ? 'required' : '' }}>
             <option value="" selected disabled>{{(isset($feesDetails)) ? $feesDetails['main_course_name'] : '-- Choose Main course --' }}</option>
         </select>
-        @isset($feesDetails)<small class="form-hint">You can not edit the Main course.</small>@endisset
+        @isset($feesDetails)<small class="text-danger">You can not edit the Main course.</small>@endisset
         @error('main_course_id')<div class="invalid-feedback">{{$message}}</div>@enderror
     </div>
+
+    <div class="col-md-4 mb-3" id="unit_section">
+        <label class="form-label required">Unit</label>
+        <select name="center_id" id="center_id" class="form-select @error('center_id') is-invalid @enderror" required>
+            <option value="" selected disabled>-- Select unit --</option>
+            @foreach ($units as $unit)
+                <option value="{{$unit->id}}"
+                    {{old('center_id', $feesDetails['center_id'] ?? '') == $unit->id ? 'selected' : ''}}>
+                    {{$unit->name. ' ('.$unit->code.')'}}
+                </option>
+            @endforeach
+        </select>
+        {{-- <input type="text" class="form-control @error('parent_zone') is-invalid @enderror" name="parent_zone" placeholder="e.g Kolkata" value="{{old('parent_zone')}}"> --}}
+        @error('center_id')<div class="invalid-feedback">{{$message}}</div>@enderror
+    </div>
+
     <div class="col-md-4 mb-3">
         <label class="form-label required">Admission Fees</label>
         <input type="number" class="form-control @error('admission_fees') is-invalid @enderror" name="admission_fees" placeholder="e.g 100.00" step="0.01" value="{{ isset($feesDetails) ? $feesDetails['admission_fees'] : '' }}" required>

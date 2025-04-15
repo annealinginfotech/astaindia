@@ -102,4 +102,11 @@ class ZoneController extends Controller
         }
         return response()->json(['zones'    =>  $zone->parent]);
     }
+
+    public function getUnit($state, $district, $parent) {
+        $units  =   Center::with('controlCenter')->where('state_id', $state)->wherehas('controlCenter', function($query) use($state, $parent) {
+            $query->where('control_center_id', $parent)->where('state_id', $state);
+        })->active()->get();
+        return $units;
+    }
 }

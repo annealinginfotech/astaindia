@@ -12,9 +12,11 @@ class FeesStructure extends Model
 {
     use SoftDeletes, HasFactory;
 
-    protected $fillable =   ['main_course_id', 'fees_type', 'amount', 'status'];
+    protected $fillable =   ['main_course_id', 'center_id', 'fees_type', 'amount', 'status'];
 
     protected $dates    =   ['created_at'];
+
+    protected $appends  =   ['center_name'];
 
     public function mainCourse() {
         return $this->belongsTo(MainCourse::class, 'main_course_id', 'id');
@@ -22,5 +24,13 @@ class FeesStructure extends Model
 
     public function scopeMonthly(Builder $query): void {
         $query->where('fees_type', FeesType::MONTHLY);
+    }
+
+    public function centers() {
+        return $this->belongsTo(Center::class, 'center_id', 'id');
+    }
+
+    public function getCenterNameAttribute() {
+        return $this->centers->name.' ('.$this->centers->code.')';
     }
 }
