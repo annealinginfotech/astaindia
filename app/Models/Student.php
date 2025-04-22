@@ -16,4 +16,23 @@ class Student extends Model
                             'guardian_relation', 'status'];
 
     protected $dates    =   ['dob', 'created_at', 'updated_at'];
+
+    /**
+     * File: Student.php
+     * Description: relationships codes
+     * Author: Debanjan Roy
+     * Created on: 2025-04-16
+     */
+
+    public function address() {
+        return $this->hasOnly(StudentAddress::class, 'student_id', 'id');
+    }
+
+    public function contact() {
+        return $this->hasOnly(StudentContact::class, 'student_id', 'id');
+    }
+
+    public function courseObtain() {
+        return $this->hasMany(CourseObtain::class, 'student_id', 'id');
+    }
 }

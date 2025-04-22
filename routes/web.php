@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Zone\ZoneController;
 use App\Http\Controllers\Center\CenterController;
+use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Courses\BaseCourseController;
@@ -70,6 +71,7 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/get-parent-zone/{id}/{state?}', [ZoneController::class, 'getParentZone'])->name('zones.get-parent');
         Route::resource('zones', ZoneController::class);
         Route::get('get-unit/{state}/{parent}', [ZoneController::class, 'getUnit'])->name('zones.get-unit');
-
     });
+
+    Route::resource('student', StudentController::class);
 });
