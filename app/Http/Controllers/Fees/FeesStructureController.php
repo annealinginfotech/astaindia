@@ -50,6 +50,7 @@ class FeesStructureController extends Controller
         $this->validate($request, [
             'main_course_id'        =>  'required|exists:main_courses,id',
             'center_id'             =>  'required|exists:centers,id',
+            'age_limit'             =>  'required',
             'admission_fees'        =>  'required',
             'monthly_fees'          =>  'required',
             'exam_fees'             =>  'required'
@@ -59,6 +60,7 @@ class FeesStructureController extends Controller
         $admissionPayload   =   [
             'main_course_id'    =>  $request->main_course_id,
             'center_id'         =>  $request->center_id,
+            'age_limit'         =>  $request->age_limit,
             'fees_type'         =>  FeesType::ADMISSION,
             'amount'            =>  (double)$request->admission_fees,
             'created_at'        =>  Carbon::now(),
@@ -68,6 +70,7 @@ class FeesStructureController extends Controller
         $monthlyPayload   =   [
             'main_course_id'    =>  $request->main_course_id,
             'center_id'         =>  $request->center_id,
+            'age_limit'         =>  $request->age_limit,
             'fees_type'         =>  FeesType::MONTHLY,
             'amount'            =>  (double)$request->monthly_fees,
             'created_at'        =>  Carbon::now(),
@@ -77,6 +80,7 @@ class FeesStructureController extends Controller
         $examPayload   =   [
             'main_course_id'    =>  $request->main_course_id,
             'center_id'         =>  $request->center_id,
+            'age_limit'         =>  $request->age_limit,
             'fees_type'         =>  FeesType::EXAM,
             'amount'            =>  (double)$request->exam_fees,
             'created_at'        =>  Carbon::now(),
@@ -116,6 +120,7 @@ class FeesStructureController extends Controller
                                         'main_course_id'        =>  $feesDetailsRaw->first()->main_course_id,
                                         'main_course_name'      =>  $feesDetailsRaw->first()->mainCourse->name,
                                         'center_id'             =>  $feesDetailsRaw->first()->center_id,
+                                        'age_limit'             =>  $feesDetailsRaw->first()->age_limit,
                                         'admission_fees'        =>  $feesDetailsRaw->where('fees_type', FeesType::ADMISSION)->value('amount'),
                                         'monthly_fees'          =>  $feesDetailsRaw->where('fees_type', FeesType::MONTHLY)->value('amount'),
                                         'exam_fees'             =>  $feesDetailsRaw->where('fees_type', FeesType::EXAM)->value('amount'),
@@ -137,6 +142,7 @@ class FeesStructureController extends Controller
     {
         $this->validate($request, [
             'center_id'             =>  'required|exists:centers,id',
+            'age_limit'             =>  'required',
             'admission_fees'        =>  'required',
             'monthly_fees'          =>  'required',
             'exam_fees'             =>  'required'
@@ -145,9 +151,9 @@ class FeesStructureController extends Controller
 
         try {
             DB::beginTransaction();
-            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::ADMISSION])->update(['amount' =>  $request->admission_fees, 'center_id'  =>  $request->center_id]);
-            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::MONTHLY])->update(['amount' =>  $request->monthly_fees, 'center_id'  =>  $request->center_id]);
-            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::EXAM])->update(['amount' =>  $request->exam_fees, 'center_id'    =>  $request->center_id]);
+            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::ADMISSION])->update(['amount' =>  $request->admission_fees, 'center_id'  =>  $request->center_id, 'age_limit'    =>  $request->age_limit]);
+            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::MONTHLY])->update(['amount' =>  $request->monthly_fees, 'center_id'  =>  $request->center_id, 'age_limit'    =>  $request->age_limit]);
+            FeesStructure::where(['main_course_id'   =>  $mainCourseID, 'fees_type'  =>  FeesType::EXAM])->update(['amount' =>  $request->exam_fees, 'center_id'    =>  $request->center_id, 'age_limit'    =>  $request->age_limit]);
             DB::commit();
         } catch (\Throwable $th) {
             Log::channel('feesStructureUpdateLog')->info('Error while updating fees strucure. Reason'.$th);

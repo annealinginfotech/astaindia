@@ -12,7 +12,7 @@ class FeesStructure extends Model
 {
     use SoftDeletes, HasFactory;
 
-    protected $fillable =   ['main_course_id', 'center_id', 'fees_type', 'amount', 'status'];
+    protected $fillable =   ['main_course_id', 'center_id', 'age_limit', 'fees_type', 'amount', 'status'];
 
     protected $dates    =   ['created_at'];
 

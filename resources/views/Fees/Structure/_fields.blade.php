@@ -37,17 +37,22 @@
         @error('center_id')<div class="invalid-feedback">{{$message}}</div>@enderror
     </div>
 
-    <div class="col-md-4 mb-3">
+    <div class="col-md-3 mb-3">
+        <label for="" class="form-label required">Age limit</label>
+        <input type="text" name="age_limit" id="age_limit" class="form-control @error('age_limit') is-invalid @enderror" value="{{isset($feesDetails) ? $feesDetails['age_limit'] : ''}}">
+        @error('age_limit') <div class="invalid-feedback">{{$message}}</div> @enderror
+    </div>
+    <div class="col-md-3 mb-3">
         <label class="form-label required">Admission Fees</label>
         <input type="number" class="form-control @error('admission_fees') is-invalid @enderror" name="admission_fees" placeholder="e.g 100.00" step="0.01" value="{{ isset($feesDetails) ? $feesDetails['admission_fees'] : '' }}" required>
         @error('name')<div class="invalid-feedback">{{$message}}</div>@enderror
     </div>
-    <div class="col-md-4 mb-3">
+    <div class="col-md-3 mb-3">
         <label class="form-label required">Monthly Fees</label>
         <input type="number" class="form-control @error('monthly_fees') is-invalid @enderror" name="monthly_fees" placeholder="e.g 100.00" step="0.01" value="{{ isset($feesDetails) ? $feesDetails['monthly_fees'] : '' }}" required>
         @error('monthly_fees')<div class="invalid-feedback">{{$message}}</div>@enderror
     </div>
-    <div class="col-md-4 mb-3">
+    <div class="col-md-3 mb-3">
         <label class="form-label required">Exam Fees</label>
         <input type="number" class="form-control @error('exam_fees') is-invalid @enderror" name="exam_fees" placeholder="e.g 100.00" step="0.01" value="{{ isset($feesDetails) ? $feesDetails['exam_fees'] : '' }}" required>
         @error('exam_fees')<div class="invalid-feedback">{{$message}}</div>@enderror
